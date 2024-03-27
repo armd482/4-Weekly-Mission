@@ -51,7 +51,7 @@ export const UserWrapper = styled.div`
   gap: 6px;
 `;
 
-export const UserImage = styled.img`
+export const UserImage = styled(Image)`
   width: 28px;
   height: 28px;
 `;

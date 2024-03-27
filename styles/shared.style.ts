@@ -4,6 +4,7 @@ import COLOR from '@/styles/color';
 export const Content = styled.div`
   display: flex;
   width: 100%;
+  height: 100%;
   align-items: center;
   justify-content: center;
   padding: 40px 0;
@@ -14,6 +15,7 @@ export const ContentWrapper = styled.div`
   flex-direction: column;
   gap: 40px;
   width: 1060px;
+  height: 100%;
   justify-content: center;
   @media (max-width: 1199px) {
     width: 704px;

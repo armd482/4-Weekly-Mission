@@ -31,16 +31,17 @@ export const getServerSideProps = async () => {
 
 export default function SharedPage({ pageProps }: Props) {
   const [topic, setTopic] = useState<string>('');
-  const { folderData } = pageProps;
-  const { cardData } = folderData;
+  const { cardData } = pageProps.folderData;
   const filteredData = FilterData<cardDataType>(cardData, topic);
+  const folderData = { category: null, error: null };
+  const currentFolder = { title: null, id: null };
   const changeTopic = useCallback((value: string) => {
     setTopic(value);
   }, []);
   return (
     <>
       <Header fix userData={pageProps.userData} />
-      <SubHeader folder={folderData} />
+      <SubHeader folder={pageProps.folderData} />
       <S.Content>
         <S.ContentWrapper>
           <SearchBar topic={topic} changeTopic={changeTopic} />
@@ -51,7 +52,13 @@ export default function SharedPage({ pageProps }: Props) {
           )}
           <S.CardWrapper>
             {filteredData?.map((card) => (
-              <Card key={card.id} card={card} page="shared" />
+              <Card
+                key={card.id}
+                card={card}
+                page="shared"
+                folderData={folderData}
+                currentFolder={currentFolder}
+              />
             ))}
           </S.CardWrapper>
         </S.ContentWrapper>

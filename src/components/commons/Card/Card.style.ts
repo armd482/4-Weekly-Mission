@@ -1,4 +1,5 @@
 import FONT from '@/styles/font';
+import Image from 'next/image';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
@@ -22,9 +23,9 @@ export const CardImageWrapper = styled.div`
   border-radius: 15px 15px 0 0;
 `;
 
-export const CardImage = styled.img`
-  width: 100%;
-  height: 100%;
+export const CardImage = styled(Image)`
+  width: 340px;
+  height: 200px;
   object-fit: cover;
   transition-duration: 0.5s;
 `;

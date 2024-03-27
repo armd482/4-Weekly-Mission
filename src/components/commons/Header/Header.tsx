@@ -5,7 +5,7 @@ import * as S from './Header.style';
 
 interface Props {
   fix: boolean | null;
-  userData: UserDataType;
+  userData: UserDataType | null;
 }
 
 const Header = ({ fix, userData }: Props) => (
@@ -23,7 +23,7 @@ const Header = ({ fix, userData }: Props) => (
       {userData ? (
         <S.UserWrapper>
           <S.UserImage
-            src={userData.image ? userData.image : undefined}
+            src={userData.image ? userData.image : ''}
             alt="profile"
             width={28}
             height={28}

@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import FONT from '@/styles/font';
+import Image from 'next/image';
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -17,7 +18,7 @@ export const ContentWrapper = styled.div`
   gap: 20px;
 `;
 
-export const ProfileImage = styled.img`
+export const ProfileImage = styled(Image)`
   width: 60px;
   height: 60px;
   border-radius: 47px;
