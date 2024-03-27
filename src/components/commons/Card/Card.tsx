@@ -13,8 +13,8 @@ import Kebab from '../Kebab/Kebab';
 interface Props {
   page: string;
   card: null | cardDataType;
-  folderData: CategoryDataType | null;
-  currentFolder: currentFolderDataType | null;
+  folderData?: CategoryDataType | null;
+  currentFolder?: currentFolderDataType | null;
 }
 
 const Card = ({ page, card, folderData, currentFolder }: Props) => {
@@ -69,8 +69,10 @@ const Card = ({ page, card, folderData, currentFolder }: Props) => {
               <Kebab
                 cardID={card?.id ? card?.id : null}
                 cardURL={card?.url ? card?.url : null}
-                folderData={folderData}
-                currentFolder={currentFolder}
+                folderData={folderData !== undefined ? folderData : null}
+                currentFolder={
+                  currentFolder !== undefined ? currentFolder : null
+                }
               />
             )}
           </S.TopWrapper>
@@ -80,5 +82,10 @@ const Card = ({ page, card, folderData, currentFolder }: Props) => {
       </S.Wrapper>
     </Link>
   );
+};
+
+Card.defaultProps = {
+  folderData: { category: null, error: null },
+  currentFolder: { title: null, id: null },
 };
 export default Card;

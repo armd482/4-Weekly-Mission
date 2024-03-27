@@ -3,27 +3,44 @@ import SubHeader from '@/src/components/shared/SubHeader/SubHeader';
 import SearchBar from '@/src/components/commons/SearchBar/SearchBar';
 import Card from '@/src/components/commons/Card/Card';
 import Footer from '@/src/components/commons/Footer/Footer';
-import useAPIData from '@/src/hooks/useAPIData';
-import { getFolderDataAPI } from '@/src/API/API';
-import { FolderDataType, cardDataType } from '@/src/type';
+import { getFolderDataAPI, getUserSampleDataAPI } from '@/src/API/API';
+import { FolderDataType, UserDataType, cardDataType } from '@/src/type';
 import { useCallback, useState } from 'react';
 import FilterData from '@/src/utils/FilterData';
-import * as S from './index.style';
+import * as S from '../../styles/shared.style';
 
-export default function SharedPage() {
+interface pagePropsType {
+  userData: UserDataType;
+  folderData: FolderDataType;
+}
+
+interface Props {
+  pageProps: pagePropsType;
+}
+
+export const getServerSideProps = async () => {
+  const userData = await getUserSampleDataAPI();
+  const folderData = await getFolderDataAPI();
+  return {
+    props: {
+      userData,
+      folderData,
+    },
+  };
+};
+
+export default function SharedPage({ pageProps }: Props) {
   const [topic, setTopic] = useState<string>('');
-  const { data: folder } = useAPIData<FolderDataType>(getFolderDataAPI);
-  const cardData = folder ? folder.cardData : null;
+  const { folderData } = pageProps;
+  const { cardData } = folderData;
   const filteredData = FilterData<cardDataType>(cardData, topic);
-  const folderData = { category: null, error: null };
-  const currentFolder = { title: null, id: null };
   const changeTopic = useCallback((value: string) => {
     setTopic(value);
   }, []);
   return (
     <>
-      <Header fix />
-      <SubHeader folder={folder} />
+      <Header fix userData={pageProps.userData} />
+      <SubHeader folder={folderData} />
       <S.Content>
         <S.ContentWrapper>
           <SearchBar topic={topic} changeTopic={changeTopic} />
@@ -34,13 +51,7 @@ export default function SharedPage() {
           )}
           <S.CardWrapper>
             {filteredData?.map((card) => (
-              <Card
-                key={card.id}
-                card={card}
-                page="shared"
-                folderData={folderData}
-                currentFolder={currentFolder}
-              />
+              <Card key={card.id} card={card} page="shared" />
             ))}
           </S.CardWrapper>
         </S.ContentWrapper>

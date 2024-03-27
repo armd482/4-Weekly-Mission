@@ -1,44 +1,40 @@
 import React from 'react';
 import Link from 'next/link';
-import useAPIData from '@/src/hooks/useAPIData';
 import { UserDataType } from '@/src/type';
-import { getUserSampleDataAPI } from '@/src/API/API';
 import * as S from './Header.style';
 
 interface Props {
   fix: boolean | null;
+  userData: UserDataType;
 }
 
-const Header = ({ fix }: Props) => {
-  const { data: userProfile } = useAPIData<UserDataType>(getUserSampleDataAPI);
-  return (
-    <S.Wrapper $fix={fix}>
-      <S.HeaderWrapper>
-        <Link href="/">
-          <S.Logo
-            src="/images/logo.svg"
-            alt="Linkbrary"
-            width={133}
-            height={24}
-            priority
+const Header = ({ fix, userData }: Props) => (
+  <S.Wrapper $fix={fix}>
+    <S.HeaderWrapper>
+      <Link href="/">
+        <S.Logo
+          src="/images/logo.svg"
+          alt="Linkbrary"
+          width={133}
+          height={24}
+          priority
+        />
+      </Link>
+      {userData ? (
+        <S.UserWrapper>
+          <S.UserImage
+            src={userData.image ? userData.image : undefined}
+            alt="profile"
+            width={28}
+            height={28}
           />
-        </Link>
-        {userProfile ? (
-          <S.UserWrapper>
-            <S.UserImage
-              src={userProfile?.image ? userProfile?.image : undefined}
-              alt="profile"
-              width={28}
-              height={28}
-            />
-            <S.UserEmail>{userProfile.email}</S.UserEmail>
-          </S.UserWrapper>
-        ) : (
-          <div />
-        )}
-      </S.HeaderWrapper>
-    </S.Wrapper>
-  );
-};
+          <S.UserEmail>{userData.email}</S.UserEmail>
+        </S.UserWrapper>
+      ) : (
+        <div />
+      )}
+    </S.HeaderWrapper>
+  </S.Wrapper>
+);
 
 export default Header;

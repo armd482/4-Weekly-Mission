@@ -4,20 +4,42 @@ import SubHeader from '@/src/components/folder/SubHeader/SubHeader';
 import Footer from '@/src/components/commons/Footer/Footer';
 import { useState, useCallback, useRef, useEffect } from 'react';
 import useAPIData from '@/src/hooks/useAPIData';
-import { getCategoryDataAPI, getCardDataAPI } from '@/src/API/API';
+import {
+  getCategoryDataAPI,
+  getCardDataAPI,
+  getUserSampleDataAPI,
+} from '@/src/API/API';
 import { FolderContextProvider } from '@/src/context/folderContext';
 import {
   CategoryDataType,
   folderCardDataType,
   folderCardType,
   currentFolderDataType,
+  UserDataType,
 } from '@/src/type';
 import Folder from '@/src/components/folder/Folder/Folder';
 import Modal from '@/src/components/folder/Modal/Modal';
 import FilterData from '@/src/utils/FilterData';
-import * as S from './index.style';
+import * as S from '../../styles/folder.style';
 
-export default function FolderPage() {
+interface pagePropsType {
+  userData: UserDataType;
+}
+
+interface Props {
+  pageProps: pagePropsType;
+}
+
+export const getServerSideProps = async () => {
+  const userData = await getUserSampleDataAPI();
+  return {
+    props: {
+      userData,
+    },
+  };
+};
+
+export default function FolderPage({ pageProps }: Props) {
   const target = useRef<HTMLDivElement>(null);
   const [currentFolder, setCurrentFolder] =
     useState<currentFolderDataType | null>({
@@ -80,7 +102,7 @@ export default function FolderPage() {
   return (
     <FolderContextProvider>
       <S.Wrapper>
-        <Header fix={false} />
+        <Header fix={false} userData={pageProps.userData} />
         <SubHeader folderData={folderData} currentFolder={currentFolder} />
         <S.Content ref={target}>
           <S.ContentWrapper>
