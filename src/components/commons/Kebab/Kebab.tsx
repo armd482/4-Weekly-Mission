@@ -15,7 +15,7 @@ const Kebab = ({ cardID, cardURL, folderData }: Props) => {
   const { kebabID, changeKebabID, changeModalData } = useContext(FolderContext);
   const router = useRouter();
   const { folderID } = router.query;
-  const currentFolderID = folderID !== undefined ? folderID : '0';
+  const currentFolderID = folderID ?? -1;
 
   const clickKebabButton = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -36,10 +36,10 @@ const Kebab = ({ cardID, cardURL, folderData }: Props) => {
 
   const openAddModal = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    const folderCategory = folderData?.category?.map((category) => ({
+    const folderCategory = folderData.category.map((category) => ({
       folderName: String(category.name),
-      folderID: Number(category.id),
-      linkCount: category.link ? category.link.count : 0,
+      folderID: category.id,
+      linkCount: category.link.count ?? 0,
     }));
 
     const folder = [
@@ -59,8 +59,8 @@ const Kebab = ({ cardID, cardURL, folderData }: Props) => {
   useEffect(() => {
     const clickOtherPart = (e: MouseEvent) => {
       const target = e.target as HTMLDivElement;
-      if (wraperRef.current && !wraperRef.current?.contains(target)) {
-        changeKebabID(null);
+      if (wraperRef.current && !wraperRef.current.contains(target)) {
+        changeKebabID(-1);
       }
     };
     document.addEventListener('click', clickOtherPart);

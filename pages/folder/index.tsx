@@ -35,9 +35,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const userData = await getUserSampleDataAPI();
   const folderData = await getCategoryDataAPI();
   const { folderID } = context.query;
-  const folderCard = await getCardDataAPI(
-    String(folderID !== undefined ? folderID : '0'),
-  );
+  const folderCard = await getCardDataAPI(String(folderID ?? '0'));
   return {
     props: {
       userData,

@@ -39,7 +39,7 @@ const SubHeader = ({ folderData, type }: Props) => {
   };
 
   return (
-    <S.Wrapper $type={type === undefined ? '' : type}>
+    <S.Wrapper $type={type ?? ''}>
       <S.SearchWrapper>
         <S.SearchInput
           placeholder="링크를 추가해보세요"

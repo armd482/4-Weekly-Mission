@@ -50,7 +50,7 @@ export default function SharedPage({ pageProps }: Props) {
             </S.SearchText>
           )}
           <S.CardWrapper>
-            {filteredData?.map((card) => (
+            {filteredData.map((card) => (
               <Card
                 key={card.id}
                 card={card}

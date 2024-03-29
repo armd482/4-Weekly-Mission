@@ -2,16 +2,24 @@ import { createContext, useCallback, useMemo, useState } from 'react';
 import { modalDataType } from '../type';
 
 interface contextType {
-  kebabID: number | null;
-  changeKebabID: (value: number | null) => void;
-  modalData: modalDataType | null;
+  kebabID: number;
+  changeKebabID: (value: number) => void;
+  modalData: modalDataType;
   changeModalData: (value: modalDataType) => void;
 }
 
+const DEFAULT_MODAL = {
+  modalType: '',
+  subTitle: '',
+  folder: [],
+  currentFolderID: -1,
+  currentLinkID: -1,
+};
+
 const defaultValue = {
-  kebabID: null,
+  kebabID: -1,
   changeKebabID: () => {},
-  modalData: null,
+  modalData: DEFAULT_MODAL,
   changeModalData: () => {},
 };
 
@@ -22,15 +30,9 @@ interface Props {
 export const FolderContext = createContext<contextType>(defaultValue);
 
 export const FolderContextProvider = ({ children }: Props) => {
-  const [kebabID, setKebabID] = useState<number | null>(null);
-  const [modalData, setModalData] = useState<modalDataType>({
-    modalType: null,
-    subTitle: null,
-    folder: null,
-    currentFolderID: null,
-    currentLinkID: null,
-  });
-  const changeKebabID = useCallback((value: number | null) => {
+  const [kebabID, setKebabID] = useState<number>(-1);
+  const [modalData, setModalData] = useState<modalDataType>(DEFAULT_MODAL);
+  const changeKebabID = useCallback((value: number) => {
     setKebabID(value);
   }, []);
   const changeModalData = useCallback((value: modalDataType) => {

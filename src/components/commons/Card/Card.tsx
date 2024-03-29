@@ -15,12 +15,12 @@ interface Props {
 const Card = ({ page, card, folderData }: Props) => {
   const WrapperRef = useRef<HTMLDivElement>(null);
   const ImageRef = useRef<HTMLImageElement>(null);
-  const date = card?.createdAt ? card?.createdAt : '';
+  const date = card.createdAt ?? '';
   const cardCreationDate = CardDateFormat(date);
   const cardStatus = CardUpdateStatus(date);
   const [imageURL, setImageURL] = useState(
-    card?.imageSource && card.imageSource.startsWith('http')
-      ? card?.imageSource
+    card.imageSource && card.imageSource.startsWith('http')
+      ? card.imageSource
       : '/images/hollowImage.png',
   );
 
@@ -43,7 +43,7 @@ const Card = ({ page, card, folderData }: Props) => {
   };
 
   return (
-    <Link href={card?.url ? card?.url : ''}>
+    <Link href={card.url ?? ''}>
       <S.Wrapper
         ref={WrapperRef}
         onMouseOver={handleCardMouseOver}
@@ -70,7 +70,7 @@ const Card = ({ page, card, folderData }: Props) => {
               />
             )}
           </S.TopWrapper>
-          <S.CardTitle>{card?.description}</S.CardTitle>
+          <S.CardTitle>{card.description}</S.CardTitle>
           <S.CardDate>{cardCreationDate}</S.CardDate>
         </S.CardContentWrapper>
       </S.Wrapper>

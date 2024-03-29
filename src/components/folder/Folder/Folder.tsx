@@ -21,7 +21,7 @@ const Folder = ({ folderData, cardData }: Props) => {
   const { changeModalData } = useContext(FolderContext);
   const router = useRouter();
   const { folderID } = router.query;
-  const currentFolderID = folderID !== undefined ? folderID : '0';
+  const currentFolderID = folderID ?? '0';
   const [currentFolder, setCurrentFolder] = useState<string>('전체');
 
   const openModal = () => {
@@ -76,7 +76,7 @@ const Folder = ({ folderData, cardData }: Props) => {
       click: openOptionModal,
     },
   ];
-  if (folderData && folderData.category?.length === 0) {
+  if (folderData.category.length === 0) {
     return <S.HollowWrapper>저장된 링크가 없습니다</S.HollowWrapper>;
   }
   return (
@@ -93,7 +93,7 @@ const Folder = ({ folderData, cardData }: Props) => {
             </S.CategoryButton>
           </Link>
           {folderData &&
-            folderData.category?.map((folder) => (
+            folderData.category.map((folder) => (
               <Link
                 href={{ pathname: '/folder', query: { folderID: folder.id } }}
                 key={folder.id}
@@ -139,23 +139,22 @@ const Folder = ({ folderData, cardData }: Props) => {
           </S.OptionWrapper>
         )}
       </S.TitleWrapper>
-      <S.CardWrapper $empty={cardData && cardData?.length === 0}>
-        {cardData &&
-          cardData?.map((card) => (
-            <Card
-              key={card.id}
-              page="folder"
-              card={{
-                id: card.id,
-                createdAt: card.created_at,
-                url: card.url,
-                title: card.title,
-                description: card.description,
-                imageSource: card.image_source,
-              }}
-              folderData={folderData}
-            />
-          ))}
+      <S.CardWrapper $empty={cardData.length === 0}>
+        {cardData.map((card) => (
+          <Card
+            key={card.id}
+            page="folder"
+            card={{
+              id: card.id,
+              createdAt: card.created_at,
+              url: card.url,
+              title: card.title,
+              description: card.description,
+              imageSource: card.image_source,
+            }}
+            folderData={folderData}
+          />
+        ))}
       </S.CardWrapper>
     </S.Wrapper>
   );

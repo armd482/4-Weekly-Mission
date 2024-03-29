@@ -62,13 +62,13 @@ const Modal = () => {
     }
   };
   return (
-    modalData?.modalType && (
+    modalData.modalType && (
       <S.ModalBackground onClick={clickOutter}>
         <S.ModalWrapper ref={wrapperRef}>
           <S.ModalTitleWrapper>
             <S.ModalTitle>{MODAL[modalType].title}</S.ModalTitle>
             {modalData.subTitle && (
-              <S.ModalSubTitle>{String(modalData?.subTitle)}</S.ModalSubTitle>
+              <S.ModalSubTitle>{String(modalData.subTitle)}</S.ModalSubTitle>
             )}
           </S.ModalTitleWrapper>
           <ModalContent />
