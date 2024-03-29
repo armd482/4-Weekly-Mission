@@ -56,7 +56,8 @@ export default function FolderPage({ pageProps }: Props) {
   }, []);
 
   useEffect(() => {
-    const targetHeight = target.current ? target.current.scrollHeight : 0;
+    const currrentTarget = target.current;
+    const targetHeight = currrentTarget ? currrentTarget.scrollHeight : 0;
     const minThreshold = Math.min(window.innerHeight / targetHeight, 1);
     const options = {
       root: null,
@@ -79,10 +80,13 @@ export default function FolderPage({ pageProps }: Props) {
       handleIntersectionObserver,
       options,
     );
-    if (target.current) {
-      observer.observe(target.current);
+    if (currrentTarget) {
+      observer.observe(currrentTarget);
     }
     return () => {
+      if (currrentTarget) {
+        observer.unobserve(currrentTarget);
+      }
       observer.disconnect();
     };
   }, [cardData]);
