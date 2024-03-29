@@ -1,4 +1,4 @@
-import COLOR from '@/styles/color';
+import COLOR from '@/styles/colors';
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`

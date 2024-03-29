@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import COLOR from '@/styles/color';
+import COLOR from '@/styles/colors';
 
 export const Content = styled.div`
   display: flex;

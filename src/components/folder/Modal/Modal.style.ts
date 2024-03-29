@@ -1,4 +1,4 @@
-import COLOR from '@/styles/color';
+import COLOR from '@/styles/colors';
 import Image from 'next/image';
 import styled from 'styled-components';
 

@@ -7,7 +7,7 @@ import {
   getCategoryDataAPI,
   getCardDataAPI,
   getUserSampleDataAPI,
-} from '@/src/API/API';
+} from '@/src/apis/bootcampAPI';
 import { FolderContextProvider } from '@/src/context/folderContext';
 import {
   CategoryDataType,
