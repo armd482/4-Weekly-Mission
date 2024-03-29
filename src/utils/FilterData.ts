@@ -14,7 +14,7 @@ const FilterData = <T extends Data>(cardData: T[] | null, topic: string) => {
   if (filteredData) {
     return filteredData;
   }
-  return null;
+  return [];
 };
 
 export default FilterData;

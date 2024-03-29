@@ -2,29 +2,26 @@ import { useRef, useState } from 'react';
 import CardUpdateStatus from '@/src/utils/CardUpdateStatus';
 import CardDateFormat from '@/src/utils/CardDateFormat';
 import Link from 'next/link';
-import {
-  CategoryDataType,
-  cardDataType,
-  currentFolderDataType,
-} from '@/src/type';
+import { CategoryDataType, cardDataType } from '@/src/type';
 import * as S from './Card.style';
 import Kebab from '../Kebab/Kebab';
 
 interface Props {
   page: string;
-  card: null | cardDataType;
-  folderData?: CategoryDataType | null;
-  currentFolder?: currentFolderDataType | null;
+  card: cardDataType;
+  folderData?: CategoryDataType;
 }
 
-const Card = ({ page, card, folderData, currentFolder }: Props) => {
+const Card = ({ page, card, folderData }: Props) => {
   const WrapperRef = useRef<HTMLDivElement>(null);
   const ImageRef = useRef<HTMLImageElement>(null);
   const date = card?.createdAt ? card?.createdAt : '';
   const cardCreationDate = CardDateFormat(date);
   const cardStatus = CardUpdateStatus(date);
   const [imageURL, setImageURL] = useState(
-    card?.imageSource ? card?.imageSource : '/images/hollowImage.png',
+    card?.imageSource && card.imageSource.startsWith('http')
+      ? card?.imageSource
+      : '/images/hollowImage.png',
   );
 
   const handleCardMouseOver = () => {
@@ -60,7 +57,6 @@ const Card = ({ page, card, folderData, currentFolder }: Props) => {
             height={200}
             ref={ImageRef}
             onError={failImageLoad}
-            priority
           />
         </S.CardImageWrapper>
         <S.CardContentWrapper>
@@ -71,9 +67,6 @@ const Card = ({ page, card, folderData, currentFolder }: Props) => {
                 cardID={card?.id ? card?.id : null}
                 cardURL={card?.url ? card?.url : null}
                 folderData={folderData !== undefined ? folderData : null}
-                currentFolder={
-                  currentFolder !== undefined ? currentFolder : null
-                }
               />
             )}
           </S.TopWrapper>
@@ -87,6 +80,5 @@ const Card = ({ page, card, folderData, currentFolder }: Props) => {
 
 Card.defaultProps = {
   folderData: { category: null, error: null },
-  currentFolder: { title: null, id: null },
 };
 export default Card;

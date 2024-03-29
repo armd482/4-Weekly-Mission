@@ -33,8 +33,7 @@ export default function SharedPage({ pageProps }: Props) {
   const [topic, setTopic] = useState<string>('');
   const { cardData } = pageProps.folderData;
   const filteredData = FilterData<cardDataType>(cardData, topic);
-  const folderData = { category: null, error: null };
-  const currentFolder = { title: null, id: null };
+  const folderData = { category: [], error: null };
   const changeTopic = useCallback((value: string) => {
     setTopic(value);
   }, []);
@@ -57,7 +56,6 @@ export default function SharedPage({ pageProps }: Props) {
                 card={card}
                 page="shared"
                 folderData={folderData}
-                currentFolder={currentFolder}
               />
             ))}
           </S.CardWrapper>

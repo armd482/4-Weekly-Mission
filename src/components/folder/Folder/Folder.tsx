@@ -1,10 +1,8 @@
-import {
-  CategoryDataType,
-  folderCardType,
-  currentFolderDataType,
-} from '@/src/type';
-import { useContext } from 'react';
+import { CategoryDataType, folderCardType } from '@/src/type';
+import { useContext, useState } from 'react';
 import { FolderContext } from '@/src/context/folderContext';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import * as S from './Folder.style';
 import Card from '../../commons/Card/Card';
 
@@ -15,26 +13,16 @@ interface obj {
 }
 
 interface Props {
-  currentFolder: currentFolderDataType | null;
-  changeCurrentFolder: (value: currentFolderDataType | null) => void;
-  folderData: CategoryDataType | null;
-  cardData: folderCardType[] | null;
+  folderData: CategoryDataType;
+  cardData: folderCardType[];
 }
 
-const Folder = ({
-  currentFolder,
-  changeCurrentFolder,
-  folderData,
-  cardData,
-}: Props) => {
+const Folder = ({ folderData, cardData }: Props) => {
   const { changeModalData } = useContext(FolderContext);
-
-  const clickCategoryButton = (e: React.MouseEvent<HTMLDivElement>) => {
-    changeCurrentFolder({
-      title: (e.target as HTMLElement).textContent,
-      id: (e.target as HTMLElement).id,
-    });
-  };
+  const router = useRouter();
+  const { folderID } = router.query;
+  const currentFolderID = folderID !== undefined ? folderID : '0';
+  const [currentFolder, setCurrentFolder] = useState<string | null>('전체');
 
   const openModal = () => {
     changeModalData({
@@ -60,11 +48,15 @@ const Folder = ({
   const openOptionModal = (type: string) => {
     changeModalData({
       modalType: optionModalType(type),
-      subTitle: type === '삭제' && currentFolder ? currentFolder?.title : null,
+      subTitle: type === '삭제' ? currentFolder : null,
       folder: null,
       currentFolderID: null,
       currentLinkID: null,
     });
+  };
+
+  const clickFolderButton = (value: string | null) => {
+    setCurrentFolder(value);
   };
 
   const OPTION: obj[] = [
@@ -91,23 +83,29 @@ const Folder = ({
     <S.Wrapper>
       <S.FolderWrapper>
         <S.CategoryWrapper>
-          <S.CategoryButton
-            id="0"
-            onClick={clickCategoryButton}
-            $checked={currentFolder?.id === '0'}
-          >
-            전체
-          </S.CategoryButton>
+          <Link href={{ pathname: '/folder', query: { folderID: '0' } }}>
+            <S.CategoryButton
+              id="0"
+              $checked={currentFolderID === '0'}
+              onClick={() => clickFolderButton('전체')}
+            >
+              전체
+            </S.CategoryButton>
+          </Link>
           {folderData &&
             folderData.category?.map((folder) => (
-              <S.CategoryButton
+              <Link
+                href={{ pathname: '/folder', query: { folderID: folder.id } }}
                 key={folder.id}
-                id={String(folder.id)}
-                onClick={clickCategoryButton}
-                $checked={currentFolder?.id === String(folder.id)}
               >
-                {folder.name}
-              </S.CategoryButton>
+                <S.CategoryButton
+                  id={String(folder.id)}
+                  $checked={currentFolderID === String(folder.id)}
+                  onClick={() => clickFolderButton(folder.name)}
+                >
+                  {folder.name}
+                </S.CategoryButton>
+              </Link>
             ))}
         </S.CategoryWrapper>
         <S.AddFolderWrapper>
@@ -121,8 +119,8 @@ const Folder = ({
         </S.AddFolderWrapper>
       </S.FolderWrapper>
       <S.TitleWrapper>
-        <S.FolderTitle>{currentFolder?.title}</S.FolderTitle>
-        {currentFolder?.id !== '0' && (
+        <S.FolderTitle>{currentFolder}</S.FolderTitle>
+        {folderID !== '0' && (
           <S.OptionWrapper>
             {OPTION.map((option) => (
               <S.OptionButtonWrapper
@@ -156,7 +154,6 @@ const Folder = ({
                 imageSource: card.image_source,
               }}
               folderData={folderData}
-              currentFolder={currentFolder}
             />
           ))}
       </S.CardWrapper>

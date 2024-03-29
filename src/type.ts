@@ -1,12 +1,12 @@
 export type UserDataType = {
-  email: string | null;
+  email: string;
   image: string | null;
   error: unknown | null;
 };
 
 export type currentFolderDataType = {
-  title: string | null;
-  id: string | null;
+  title: string;
+  id: string;
 };
 
 export type modalFolderDataType = {
@@ -24,7 +24,7 @@ export type modalDataType = {
 };
 
 export type cardDataType = {
-  id: number | null;
+  id: number;
   createdAt: string | null;
   url: string | null;
   title: string | null;
@@ -33,10 +33,10 @@ export type cardDataType = {
 };
 
 export type FolderDataType = {
-  userName: string | null;
+  userName: string;
   userImage: string | null;
-  name: string | null;
-  cardData: cardDataType[] | null;
+  name: string;
+  cardData: cardDataType[];
   error: unknown | null;
 };
 
@@ -45,30 +45,30 @@ type link = {
 };
 
 type categoryType = {
-  id: number | null;
-  createdAt: string | null;
+  id: number;
+  createdAt: string;
   name: string | null;
-  user_id: number | null;
+  user_id: number;
   favorite: boolean;
-  link: link | null;
+  link: link;
 };
 
 export type CategoryDataType = {
-  category: categoryType[] | null;
+  category: categoryType[];
   error: unknown | null;
 };
 
 export type folderCardType = {
   id: number;
-  created_at: string | null;
-  updated_at: string | null;
+  created_at: string;
+  updated_at: string;
   url: string | null;
-  title: string | null;
+  title: string;
   description: string | null;
   image_source: string | null;
-  forder_id: number | null;
+  forder_id: number;
 };
 export type folderCardDataType = {
-  card: folderCardType[] | null;
+  card: folderCardType[];
   error: null | unknown;
 };

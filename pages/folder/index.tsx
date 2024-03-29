@@ -3,7 +3,6 @@ import SearchBar from '@/src/components/commons/SearchBar/SearchBar';
 import SubHeader from '@/src/components/folder/SubHeader/SubHeader';
 import Footer from '@/src/components/commons/Footer/Footer';
 import { useState, useCallback, useRef, useEffect } from 'react';
-import useAPIData from '@/src/hooks/useAPIData';
 import {
   getCategoryDataAPI,
   getCardDataAPI,
@@ -14,59 +13,49 @@ import {
   CategoryDataType,
   folderCardDataType,
   folderCardType,
-  currentFolderDataType,
   UserDataType,
 } from '@/src/type';
 import Folder from '@/src/components/folder/Folder/Folder';
 import Modal from '@/src/components/folder/Modal/Modal';
 import FilterData from '@/src/utils/FilterData';
+import { GetServerSideProps } from 'next';
 import * as S from '../../styles/folder.style';
 
 interface pagePropsType {
   userData: UserDataType;
+  folderData: CategoryDataType;
+  folderCard: folderCardDataType;
 }
 
 interface Props {
   pageProps: pagePropsType;
 }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const userData = await getUserSampleDataAPI();
+  const folderData = await getCategoryDataAPI();
+  const { folderID } = context.query;
+  const folderCard = await getCardDataAPI(
+    String(folderID !== undefined ? folderID : '0'),
+  );
   return {
     props: {
       userData,
+      folderData,
+      folderCard,
     },
   };
 };
 
 export default function FolderPage({ pageProps }: Props) {
   const target = useRef<HTMLDivElement>(null);
-  const [currentFolder, setCurrentFolder] =
-    useState<currentFolderDataType | null>({
-      title: '전체',
-      id: '0',
-    });
-  const { data: folderData } = useAPIData<CategoryDataType>(getCategoryDataAPI);
-  const { data: folderCard } = useAPIData<folderCardDataType>(
-    getCardDataAPI,
-    currentFolder?.id,
-  );
   const [visible, setVisible] = useState(false);
   const [topic, setTopic] = useState<string>('');
-  const cardData = FilterData<folderCardType>(
-    folderCard?.card ? folderCard?.card : null,
-    topic,
-  );
+  const cardData = FilterData<folderCardType>(pageProps.folderCard.card, topic);
 
   const changeTopic = useCallback((value: string) => {
     setTopic(value);
   }, []);
-  const changeCurrentFolder = useCallback(
-    (value: currentFolderDataType | null) => {
-      setCurrentFolder(value);
-    },
-    [],
-  );
 
   useEffect(() => {
     const targetHeight = target.current ? target.current.scrollHeight : 0;
@@ -103,7 +92,7 @@ export default function FolderPage({ pageProps }: Props) {
     <FolderContextProvider>
       <S.Wrapper>
         <Header fix={false} userData={pageProps.userData} />
-        <SubHeader folderData={folderData} currentFolder={currentFolder} />
+        <SubHeader folderData={pageProps.folderData} />
         <S.Content ref={target}>
           <S.ContentWrapper>
             <SearchBar topic={topic} changeTopic={changeTopic} />
@@ -112,20 +101,11 @@ export default function FolderPage({ pageProps }: Props) {
                 <S.TopicText>{topic}</S.TopicText> 으로 검색한 결과입니다.
               </S.SearchText>
             )}
-            <Folder
-              currentFolder={currentFolder}
-              changeCurrentFolder={changeCurrentFolder}
-              folderData={folderData}
-              cardData={cardData}
-            />
+            <Folder folderData={pageProps.folderData} cardData={cardData} />
           </S.ContentWrapper>
         </S.Content>
         {visible && (
-          <SubHeader
-            folderData={folderData}
-            currentFolder={currentFolder}
-            type="below"
-          />
+          <SubHeader folderData={pageProps.folderData} type="below" />
         )}
         <Footer />
         <Modal />

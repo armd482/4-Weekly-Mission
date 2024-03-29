@@ -1,17 +1,19 @@
 import { ChangeEvent, useContext, useState } from 'react';
 import { FolderContext } from '@/src/context/folderContext';
-import { CategoryDataType, currentFolderDataType } from '@/src/type';
+import { CategoryDataType } from '@/src/type';
+import { useRouter } from 'next/router';
 import * as S from './SubHeader.style';
 
 interface Props {
   folderData: CategoryDataType | null;
-  currentFolder: currentFolderDataType | null;
   type?: string;
 }
 
-const SubHeader = ({ folderData, currentFolder, type }: Props) => {
+const SubHeader = ({ folderData, type }: Props) => {
   const { changeModalData } = useContext(FolderContext);
   const [link, setLink] = useState<string>('');
+  const router = useRouter();
+  const { folderID } = router.query;
 
   const folderCategory = folderData?.category?.map((category) => ({
     folderName: String(category.name),
@@ -22,7 +24,6 @@ const SubHeader = ({ folderData, currentFolder, type }: Props) => {
   const folder = folderCategory
     ? [{ folderName: '전체', folderID: 0, linkCount: 3 }, ...folderCategory]
     : null;
-  const currentFolderID = currentFolder ? Number(currentFolder.id) : null;
   const changeLink = (e: ChangeEvent<HTMLInputElement>) => {
     setLink(e.target.value);
   };
@@ -31,7 +32,7 @@ const SubHeader = ({ folderData, currentFolder, type }: Props) => {
       modalType: 'AddFolderModal',
       subTitle: link ? `https://${link}` : '',
       folder,
-      currentFolderID,
+      currentFolderID: Number(folderID),
       currentLinkID: null,
     });
   };

@@ -9,7 +9,7 @@ const SubHeader = ({ folder }: Props) => (
   <S.Wrapper>
     <S.ContentWrapper>
       <S.ProfileImage
-        src={folder?.userImage ? folder.userImage : undefined}
+        src={folder?.userImage ? folder.userImage : ''}
         alt="Avatar"
         width={60}
         height={60}

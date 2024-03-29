@@ -1,18 +1,21 @@
 import { useContext, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 import { FolderContext } from '@/src/context/folderContext';
-import { CategoryDataType, currentFolderDataType } from '@/src/type';
+import { CategoryDataType } from '@/src/type';
 import * as S from './Kebeb.style';
 
 interface Props {
   cardID: number | null;
   cardURL: string | null;
   folderData: CategoryDataType | null;
-  currentFolder: currentFolderDataType | null;
 }
 
-const Kebab = ({ cardID, cardURL, folderData, currentFolder }: Props) => {
+const Kebab = ({ cardID, cardURL, folderData }: Props) => {
   const wraperRef = useRef<HTMLDivElement>(null);
   const { kebabID, changeKebabID, changeModalData } = useContext(FolderContext);
+  const router = useRouter();
+  const { folderID } = router.query;
+  const currentFolderID = folderID !== undefined ? folderID : '0';
 
   const clickKebabButton = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -43,13 +46,11 @@ const Kebab = ({ cardID, cardURL, folderData, currentFolder }: Props) => {
       ? [{ folderName: '전체', folderID: 0, linkCount: 3 }, ...folderCategory]
       : null;
 
-    const currentFolderID = currentFolder ? Number(currentFolder.id) : null;
-
     changeModalData({
       modalType: 'AddFolderModal',
       subTitle: cardURL,
       folder,
-      currentFolderID,
+      currentFolderID: Number(currentFolderID),
       currentLinkID: null,
     });
   };
