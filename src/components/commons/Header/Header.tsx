@@ -4,12 +4,12 @@ import { UserDataType } from '@/src/type';
 import * as S from './Header.style';
 
 interface Props {
-  fix: boolean | null;
-  userData: UserDataType | null;
+  fix?: boolean;
+  userData: UserDataType;
 }
 
 const Header = ({ fix, userData }: Props) => (
-  <S.Wrapper $fix={fix}>
+  <S.Wrapper $fix={!!fix}>
     <S.HeaderWrapper>
       <Link href="/">
         <S.Logo
@@ -36,5 +36,9 @@ const Header = ({ fix, userData }: Props) => (
     </S.HeaderWrapper>
   </S.Wrapper>
 );
+
+Header.defaultProps = {
+  fix: false,
+};
 
 export default Header;

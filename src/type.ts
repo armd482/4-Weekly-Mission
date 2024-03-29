@@ -16,17 +16,17 @@ export type modalFolderDataType = {
 };
 
 export type modalDataType = {
-  modalType: string | null;
-  subTitle: string | null;
-  folder: modalFolderDataType[] | null;
-  currentFolderID: number | null;
-  currentLinkID: number | null;
+  modalType: string;
+  subTitle: string;
+  folder: modalFolderDataType[];
+  currentFolderID: number;
+  currentLinkID: number;
 };
 
 export type cardDataType = {
   id: number;
-  createdAt: string | null;
-  url: string | null;
+  createdAt: string;
+  url: string;
   title: string | null;
   description: string | null;
   imageSource: string | null;
@@ -34,7 +34,7 @@ export type cardDataType = {
 
 export type FolderDataType = {
   userName: string;
-  userImage: string | null;
+  userImage: string;
   name: string;
   cardData: cardDataType[];
   error: unknown | null;
@@ -47,7 +47,7 @@ type link = {
 type categoryType = {
   id: number;
   createdAt: string;
-  name: string | null;
+  name: string;
   user_id: number;
   favorite: boolean;
   link: link;
@@ -62,7 +62,7 @@ export type folderCardType = {
   id: number;
   created_at: string;
   updated_at: string;
-  url: string | null;
+  url: string;
   title: string;
   description: string | null;
   image_source: string | null;

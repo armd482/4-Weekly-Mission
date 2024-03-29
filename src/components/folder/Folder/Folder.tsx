@@ -22,15 +22,15 @@ const Folder = ({ folderData, cardData }: Props) => {
   const router = useRouter();
   const { folderID } = router.query;
   const currentFolderID = folderID !== undefined ? folderID : '0';
-  const [currentFolder, setCurrentFolder] = useState<string | null>('전체');
+  const [currentFolder, setCurrentFolder] = useState<string>('전체');
 
   const openModal = () => {
     changeModalData({
       modalType: 'AddLinkModal',
-      subTitle: null,
-      folder: null,
-      currentFolderID: null,
-      currentLinkID: null,
+      subTitle: '',
+      folder: [],
+      currentFolderID: -1,
+      currentLinkID: -1,
     });
   };
   const optionModalType = (type: string) => {
@@ -43,19 +43,19 @@ const Folder = ({ folderData, cardData }: Props) => {
     if (type === '삭제') {
       return 'DeleteFolderModal';
     }
-    return null;
+    return '';
   };
   const openOptionModal = (type: string) => {
     changeModalData({
       modalType: optionModalType(type),
-      subTitle: type === '삭제' ? currentFolder : null,
-      folder: null,
-      currentFolderID: null,
-      currentLinkID: null,
+      subTitle: type === '삭제' ? currentFolder : '',
+      folder: [],
+      currentFolderID: -1,
+      currentLinkID: -1,
     });
   };
 
-  const clickFolderButton = (value: string | null) => {
+  const clickFolderButton = (value: string) => {
     setCurrentFolder(value);
   };
 

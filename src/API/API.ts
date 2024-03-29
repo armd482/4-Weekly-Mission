@@ -8,8 +8,8 @@ import {
 
 export const getUserSampleDataAPI = async (): Promise<UserDataType> => {
   const APIData: UserDataType = {
-    email: null,
-    image: null,
+    email: '',
+    image: '',
     error: null,
   };
   try {
@@ -26,10 +26,10 @@ export const getUserSampleDataAPI = async (): Promise<UserDataType> => {
 
 export const getFolderDataAPI = async (): Promise<FolderDataType> => {
   const APIData: FolderDataType = {
-    userName: null,
-    userImage: null,
-    name: null,
-    cardData: null,
+    userName: '',
+    userImage: '',
+    name: '',
+    cardData: [],
     error: null,
   };
   try {
@@ -48,7 +48,7 @@ export const getFolderDataAPI = async (): Promise<FolderDataType> => {
 
 export const getCategoryDataAPI = async (): Promise<CategoryDataType> => {
   const APIData: CategoryDataType = {
-    category: null,
+    category: [],
     error: null,
   };
   try {
@@ -66,7 +66,7 @@ export const getCardDataAPI = async (
   folderID: string | null = null,
 ): Promise<folderCardDataType> => {
   const APIData: folderCardDataType = {
-    card: null,
+    card: [],
     error: null,
   };
   if (folderID && folderID !== '0') {

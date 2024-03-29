@@ -2,7 +2,7 @@ import { FolderDataType } from '@/src/type';
 import * as S from './SubHeader.style';
 
 interface Props {
-  folder: FolderDataType | null;
+  folder: FolderDataType;
 }
 
 const SubHeader = ({ folder }: Props) => (

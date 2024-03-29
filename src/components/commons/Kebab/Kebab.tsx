@@ -5,9 +5,9 @@ import { CategoryDataType } from '@/src/type';
 import * as S from './Kebeb.style';
 
 interface Props {
-  cardID: number | null;
-  cardURL: string | null;
-  folderData: CategoryDataType | null;
+  cardID: number;
+  cardURL: string;
+  folderData: CategoryDataType;
 }
 
 const Kebab = ({ cardID, cardURL, folderData }: Props) => {
@@ -28,9 +28,9 @@ const Kebab = ({ cardID, cardURL, folderData }: Props) => {
     changeModalData({
       modalType: 'DeleteLinkModal',
       subTitle: cardURL,
-      folder: null,
-      currentFolderID: null,
-      currentLinkID: null,
+      folder: [],
+      currentFolderID: -1,
+      currentLinkID: -1,
     });
   };
 
@@ -42,16 +42,17 @@ const Kebab = ({ cardID, cardURL, folderData }: Props) => {
       linkCount: category.link ? category.link.count : 0,
     }));
 
-    const folder = folderCategory
-      ? [{ folderName: '전체', folderID: 0, linkCount: 3 }, ...folderCategory]
-      : null;
+    const folder = [
+      { folderName: '전체', folderID: 0, linkCount: 3 },
+      ...folderCategory,
+    ];
 
     changeModalData({
       modalType: 'AddFolderModal',
       subTitle: cardURL,
       folder,
       currentFolderID: Number(currentFolderID),
-      currentLinkID: null,
+      currentLinkID: -1,
     });
   };
 

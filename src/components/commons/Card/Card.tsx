@@ -62,11 +62,11 @@ const Card = ({ page, card, folderData }: Props) => {
         <S.CardContentWrapper>
           <S.TopWrapper>
             <S.CardStatus>{cardStatus}</S.CardStatus>
-            {page === 'folder' && (
+            {page === 'folder' && folderData && (
               <Kebab
-                cardID={card?.id ? card?.id : null}
-                cardURL={card?.url ? card?.url : null}
-                folderData={folderData !== undefined ? folderData : null}
+                cardID={card.id}
+                cardURL={card.url}
+                folderData={folderData}
               />
             )}
           </S.TopWrapper>
@@ -79,6 +79,6 @@ const Card = ({ page, card, folderData }: Props) => {
 };
 
 Card.defaultProps = {
-  folderData: { category: null, error: null },
+  folderData: { category: [], error: null },
 };
 export default Card;

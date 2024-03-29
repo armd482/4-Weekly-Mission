@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import * as S from './SubHeader.style';
 
 interface Props {
-  folderData: CategoryDataType | null;
+  folderData: CategoryDataType;
   type?: string;
 }
 
@@ -21,9 +21,10 @@ const SubHeader = ({ folderData, type }: Props) => {
     linkCount: category.link ? category.link.count : 0,
   }));
 
-  const folder = folderCategory
-    ? [{ folderName: '전체', folderID: 0, linkCount: 3 }, ...folderCategory]
-    : null;
+  const folder = [
+    { folderName: '전체', folderID: 0, linkCount: 3 },
+    ...folderCategory,
+  ];
   const changeLink = (e: ChangeEvent<HTMLInputElement>) => {
     setLink(e.target.value);
   };
@@ -33,7 +34,7 @@ const SubHeader = ({ folderData, type }: Props) => {
       subTitle: link ? `https://${link}` : '',
       folder,
       currentFolderID: Number(folderID),
-      currentLinkID: null,
+      currentLinkID: -1,
     });
   };
 

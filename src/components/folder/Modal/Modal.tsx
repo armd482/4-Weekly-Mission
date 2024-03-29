@@ -47,11 +47,11 @@ const Modal = () => {
 
   const deleteModal = () => {
     changeModalData({
-      modalType: null,
-      subTitle: null,
-      folder: null,
-      currentFolderID: null,
-      currentLinkID: null,
+      modalType: '',
+      subTitle: '',
+      folder: [],
+      currentFolderID: -1,
+      currentLinkID: -1,
     });
   };
 
