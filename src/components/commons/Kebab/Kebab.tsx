@@ -4,13 +4,13 @@ import { FolderContext } from '@/src/context/folderContext';
 import { CategoryDataType } from '@/src/type';
 import * as S from './Kebeb.style';
 
-interface Props {
+interface KebabProps {
   cardID: number;
   cardURL: string;
   folderData: CategoryDataType;
 }
 
-const Kebab = ({ cardID, cardURL, folderData }: Props) => {
+const Kebab = ({ cardID, cardURL, folderData }: KebabProps) => {
   const wraperRef = useRef<HTMLDivElement>(null);
   const { kebabID, changeKebabID, changeModalData } = useContext(FolderContext);
   const router = useRouter();

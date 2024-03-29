@@ -1,11 +1,11 @@
 import { FolderDataType } from '@/src/type';
 import * as S from './SubHeader.style';
 
-interface Props {
+interface SubHeaderProps {
   folder: FolderDataType;
 }
 
-const SubHeader = ({ folder }: Props) => (
+const SubHeader = ({ folder }: SubHeaderProps) => (
   <S.Wrapper>
     <S.ContentWrapper>
       <S.ProfileImage

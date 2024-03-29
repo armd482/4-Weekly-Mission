@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import * as S from './SearchBar.style';
 
-interface Props {
+interface SearchBarProps {
   topic?: string;
   changeTopic?: (value: string) => void;
 }
 
-const SearchBar = ({ topic, changeTopic }: Props) => {
+const SearchBar = ({ topic, changeTopic }: SearchBarProps) => {
   const [link, setLink] = useState(topic);
   const changeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (changeTopic) {

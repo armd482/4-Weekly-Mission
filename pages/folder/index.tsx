@@ -27,7 +27,7 @@ interface pagePropsType {
   folderCard: folderCardDataType;
 }
 
-interface Props {
+interface FolderPageProps {
   pageProps: pagePropsType;
 }
 
@@ -45,7 +45,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-export default function FolderPage({ pageProps }: Props) {
+export default function FolderPage({ pageProps }: FolderPageProps) {
   const target = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [topic, setTopic] = useState<string>('');

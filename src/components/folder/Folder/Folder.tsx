@@ -12,12 +12,12 @@ interface obj {
   click: (type: string) => void;
 }
 
-interface Props {
+interface FolderProps {
   folderData: CategoryDataType;
   cardData: folderCardType[];
 }
 
-const Folder = ({ folderData, cardData }: Props) => {
+const Folder = ({ folderData, cardData }: FolderProps) => {
   const { changeModalData } = useContext(FolderContext);
   const router = useRouter();
   const { folderID } = router.query;

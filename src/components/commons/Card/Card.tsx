@@ -6,13 +6,13 @@ import { CategoryDataType, cardDataType } from '@/src/type';
 import * as S from './Card.style';
 import Kebab from '../Kebab/Kebab';
 
-interface Props {
+interface CardProps {
   page: string;
   card: cardDataType;
   folderData?: CategoryDataType;
 }
 
-const Card = ({ page, card, folderData }: Props) => {
+const Card = ({ page, card, folderData }: CardProps) => {
   const WrapperRef = useRef<HTMLDivElement>(null);
   const ImageRef = useRef<HTMLImageElement>(null);
   const date = card.createdAt ?? '';

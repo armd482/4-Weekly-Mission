@@ -23,13 +23,15 @@ const defaultValue = {
   changeModalData: () => {},
 };
 
-interface Props {
+interface FolderContextProviderProps {
   children: React.ReactNode;
 }
 
 export const FolderContext = createContext<contextType>(defaultValue);
 
-export const FolderContextProvider = ({ children }: Props) => {
+export const FolderContextProvider = ({
+  children,
+}: FolderContextProviderProps) => {
   const [kebabID, setKebabID] = useState<number>(-1);
   const [modalData, setModalData] = useState<modalDataType>(DEFAULT_MODAL);
   const changeKebabID = useCallback((value: number) => {

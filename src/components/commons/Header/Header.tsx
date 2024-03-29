@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { UserDataType } from '@/src/type';
 import * as S from './Header.style';
 
-interface Props {
+interface HeaderProps {
   fix?: boolean;
   userData: UserDataType;
 }
 
-const Header = ({ fix, userData }: Props) => (
+const Header = ({ fix, userData }: HeaderProps) => (
   <S.Wrapper $fix={!!fix}>
     <S.HeaderWrapper>
       <Link href="/">

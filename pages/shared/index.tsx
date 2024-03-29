@@ -14,7 +14,7 @@ interface pagePropsType {
   folderData: FolderDataType;
 }
 
-interface Props {
+interface SharedPageProps {
   pageProps: pagePropsType;
 }
 
@@ -29,7 +29,7 @@ export const getServerSideProps = async () => {
   };
 };
 
-export default function SharedPage({ pageProps }: Props) {
+export default function SharedPage({ pageProps }: SharedPageProps) {
   const [topic, setTopic] = useState<string>('');
   const { cardData } = pageProps.folderData;
   const filteredData = FilterData<cardDataType>(cardData, topic);

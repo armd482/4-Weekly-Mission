@@ -4,12 +4,12 @@ import { CategoryDataType } from '@/src/type';
 import { useRouter } from 'next/router';
 import * as S from './SubHeader.style';
 
-interface Props {
+interface SubHeaderProps {
   folderData: CategoryDataType;
   type?: string;
 }
 
-const SubHeader = ({ folderData, type }: Props) => {
+const SubHeader = ({ folderData, type }: SubHeaderProps) => {
   const { changeModalData } = useContext(FolderContext);
   const [link, setLink] = useState<string>('');
   const router = useRouter();
