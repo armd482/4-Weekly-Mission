@@ -90,6 +90,15 @@ export default function FolderPage({ pageProps }: FolderPageProps) {
       observer.disconnect();
     };
   }, [cardData]);
+
+  useEffect(() => {
+    const { Kakao } = window;
+    if (Kakao) {
+      Kakao.cleanup();
+      Kakao.init(process.env.NEXT_PUBLIC_KAKAO_API_KEY);
+    }
+  }, []);
+
   return (
     <FolderContextProvider>
       <S.Wrapper>
