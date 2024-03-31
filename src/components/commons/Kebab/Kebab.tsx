@@ -69,7 +69,7 @@ const Kebab = ({ cardID, cardURL, folderData }: KebabProps) => {
   return (
     <S.Wrapper ref={wraperRef}>
       <S.KebabButton
-        src="/images/kebab.svg"
+        src="/icons/kebab.svg"
         alt="kebab"
         width={21}
         height={17}

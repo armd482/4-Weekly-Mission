@@ -5,15 +5,16 @@ import * as S from './Header.style';
 
 interface HeaderProps {
   fix?: boolean;
-  userData: UserDataType;
+  userData?: UserDataType;
+  page: string;
 }
 
-const Header = ({ fix, userData }: HeaderProps) => (
+const Header = ({ fix, userData, page }: HeaderProps) => (
   <S.Wrapper $fix={!!fix}>
-    <S.HeaderWrapper>
+    <S.HeaderWrapper $page={page}>
       <Link href="/">
         <S.Logo
-          src="/images/logo.svg"
+          src="/icons/logo.svg"
           alt="Linkbrary"
           width={133}
           height={24}
@@ -31,7 +32,9 @@ const Header = ({ fix, userData }: HeaderProps) => (
           <S.UserEmail>{userData.email}</S.UserEmail>
         </S.UserWrapper>
       ) : (
-        <div />
+        <Link href="/login">
+          <S.LoginButton>로그인</S.LoginButton>
+        </Link>
       )}
     </S.HeaderWrapper>
   </S.Wrapper>
@@ -39,6 +42,7 @@ const Header = ({ fix, userData }: HeaderProps) => (
 
 Header.defaultProps = {
   fix: false,
+  userData: null,
 };
 
 export default Header;

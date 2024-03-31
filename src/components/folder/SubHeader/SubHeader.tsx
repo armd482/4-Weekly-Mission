@@ -45,7 +45,7 @@ const SubHeader = ({ folderData, type }: SubHeaderProps) => {
           placeholder="링크를 추가해보세요"
           onChange={changeLink}
         />
-        <S.ImageIcon src="/images/link.svg" alt="링크" width={20} height={20} />
+        <S.ImageIcon src="/icons/link.svg" alt="링크" width={20} height={20} />
         <S.AddButton onClick={openModal}>추가하기</S.AddButton>
       </S.SearchWrapper>
     </S.Wrapper>

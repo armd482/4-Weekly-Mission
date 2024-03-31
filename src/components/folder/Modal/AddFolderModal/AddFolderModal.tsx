@@ -23,7 +23,7 @@ const AddFolderModal = () => {
           <S.LinkName>{fold.linkCount}개 링크</S.LinkName>
           {checkID === fold.folderID && (
             <S.CheckIcon
-              src="/images/check.svg"
+              src="/icons/check.svg"
               alt="check"
               width={14}
               height={14}

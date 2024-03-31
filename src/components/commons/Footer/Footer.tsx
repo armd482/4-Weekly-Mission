@@ -4,22 +4,22 @@ import * as S from './Footer.style';
 const Footer = () => {
   const SNS = [
     {
-      src: '/images/facebook.svg',
+      src: '/icons/facebook.svg',
       alt: 'facebook',
       href: 'https://www.facebook.com',
     },
     {
-      src: '/images/twitter.svg',
+      src: '/icons/twitter.svg',
       alt: 'twitter',
       href: 'https://twitter.com',
     },
     {
-      src: '/images/youtube.svg',
+      src: '/icons/youtube.svg',
       alt: 'youtube',
       href: 'https://www.youtube.com',
     },
     {
-      src: '/images/instagram.svg',
+      src: '/icons/instagram.svg',
       alt: 'instagram',
       href: 'https://www.instagram.com',
     },

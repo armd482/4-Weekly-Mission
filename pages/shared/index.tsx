@@ -39,7 +39,7 @@ export default function SharedPage({ pageProps }: SharedPageProps) {
   }, []);
   return (
     <>
-      <Header fix userData={pageProps.userData} />
+      <Header fix userData={pageProps.userData} page="shared" />
       <SubHeader folder={pageProps.folderData} />
       <S.Content>
         <S.ContentWrapper>

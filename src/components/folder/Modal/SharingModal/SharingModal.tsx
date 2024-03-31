@@ -43,19 +43,19 @@ const SharingModal = () => {
   const BUTTON = [
     {
       name: '카카오톡',
-      src: '/images/kakaoShare.svg',
+      src: '/icons/kakaoShare.svg',
       color: '#FEE500',
       onclick: () => shareKakao(),
     },
     {
       name: '페이스북',
-      src: '/images/facebookShare.svg',
+      src: '/icons/facebookShare.svg',
       color: '#1877F2',
       onclick: () => shareFaceBook(),
     },
     {
       name: '링크 복사',
-      src: '/images/link.svg',
+      src: '/icons/link.svg',
       color: 'rgba(157, 157, 157, 0.04)',
       onclick: () => copyURL(),
     },

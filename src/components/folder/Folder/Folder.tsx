@@ -61,17 +61,17 @@ const Folder = ({ folderData, cardData }: FolderProps) => {
 
   const OPTION: obj[] = [
     {
-      src: '/images/share.svg',
+      src: '/icons/share.svg',
       text: '공유',
       click: openOptionModal,
     },
     {
-      src: '/images/pen.svg',
+      src: '/icons/pen.svg',
       text: '이름 변경',
       click: openOptionModal,
     },
     {
-      src: '/images/delete.svg',
+      src: '/icons/delete.svg',
       text: '삭제',
       click: openOptionModal,
     },
@@ -111,7 +111,7 @@ const Folder = ({ folderData, cardData }: FolderProps) => {
         <S.AddFolderWrapper>
           <S.AddFolderText onClick={openModal}>폴더 추가</S.AddFolderText>
           <S.AddFolderIcon
-            src="/images/add.svg"
+            src="/icons/add.svg"
             alt="추가"
             width={16}
             height={16}

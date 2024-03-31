@@ -71,7 +71,7 @@ const Input = ({ type, value, changeValue, onBlur, onError }: InputProps) => {
         />
         {type === 'password' && (
           <S.EyeButton
-            src={`/images/eye-${showPassword ? 'on' : 'off'}.svg`}
+            src={`/icons/eye-${showPassword ? 'on' : 'off'}.svg`}
             alt="눈 모양"
             onClick={handleIconClick}
             width={16}

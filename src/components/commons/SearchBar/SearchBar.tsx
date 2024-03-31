@@ -28,15 +28,10 @@ const SearchBar = ({ topic, changeTopic }: SearchBarProps) => {
         onChange={changeInput}
         value={link}
       />
-      <S.SearchIcon
-        src="/images/Search.svg"
-        alt="검색"
-        width={16}
-        height={16}
-      />
+      <S.SearchIcon src="/icons/Search.svg" alt="검색" width={16} height={16} />
       {link && (
         <S.DeleteButton
-          src="/images/searchDelete.svg"
+          src="/icons/searchDelete.svg"
           alt="delete"
           width={24}
           height={24}

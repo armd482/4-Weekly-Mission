@@ -81,7 +81,7 @@ const Modal = () => {
             </S.ModalButton>
           )}
           <S.ModalDeleteButton
-            src="/images/close.svg"
+            src="/icons/close.svg"
             alt="close"
             width={24}
             height={24}

@@ -102,7 +102,7 @@ export default function FolderPage({ pageProps }: FolderPageProps) {
   return (
     <FolderContextProvider>
       <S.Wrapper>
-        <Header fix={false} userData={pageProps.userData} />
+        <Header fix={false} userData={pageProps.userData} page="folder" />
         <SubHeader folderData={pageProps.folderData} />
         <S.Content ref={target}>
           <S.ContentWrapper>
