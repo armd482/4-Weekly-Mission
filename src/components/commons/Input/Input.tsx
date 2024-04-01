@@ -41,7 +41,7 @@ const inputAtr: InputType = {
 };
 
 const Input = ({ type, value, changeValue, onBlur, onError }: InputProps) => {
-  const [inputType, setInputType] = useState(inputAtr[type]?.type ?? '');
+  const [inputType, setInputType] = useState(inputAtr[type].type ?? '');
   const [showPassword, setShowPassword] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -68,18 +68,18 @@ const Input = ({ type, value, changeValue, onBlur, onError }: InputProps) => {
   };
   return (
     <S.Wrapper>
-      <S.Label>{inputAtr[type]?.label ?? ''}</S.Label>
+      <S.Label>{inputAtr[type].label ?? ''}</S.Label>
       <S.InputWrapper>
         <S.InputBox
           value={value}
-          placeholder={inputAtr[type]?.placeholder ?? ''}
-          type={showPassword ? 'text' : type}
+          placeholder={inputAtr[type].placeholder ?? ''}
+          type={showPassword ? 'text' : inputAtr[type].type}
           onChange={handleInput}
           $isError={isError}
           onBlur={handleFocusOut}
           onFocus={handleFocusOn}
         />
-        {type === 'password' && (
+        {inputAtr[type].type === 'password' && (
           <S.EyeButton
             src={`/icons/eye-${showPassword ? 'on' : 'off'}.svg`}
             alt="눈 모양"
