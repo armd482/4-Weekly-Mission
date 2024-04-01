@@ -32,7 +32,7 @@ const Header = ({ fix, userData, page }: HeaderProps) => (
           <S.UserEmail>{userData.email}</S.UserEmail>
         </S.UserWrapper>
       ) : (
-        <Link href="/login">
+        <Link href="/signin">
           <S.LoginButton>로그인</S.LoginButton>
         </Link>
       )}

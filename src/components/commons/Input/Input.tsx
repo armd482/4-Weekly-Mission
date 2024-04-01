@@ -20,13 +20,23 @@ type InputType = {
 const inputAtr: InputType = {
   email: {
     type: 'text',
-    placeholder: '이메일을 입력해주세요',
+    placeholder: '이메일을 입력해주세요.',
     label: '이메일',
   },
   password: {
     type: 'password',
-    placeholder: '비밀번호를 입력해주세요',
+    placeholder: '비밀번호를 입력해주세요.',
     label: '비밀번호',
+  },
+  password2: {
+    type: 'password',
+    placeholder: '영문, 숫자를 조합해 8자 이상 입력해주세요.',
+    label: '비밀번호',
+  },
+  checkpassword: {
+    type: 'password',
+    placeholder: '비밀번호와 일치하는 값을 입력해주세요.',
+    label: '비밀번호 확인',
   },
 };
 
@@ -57,7 +67,7 @@ const Input = ({ type, value, changeValue, onBlur, onError }: InputProps) => {
     setIsError(false);
   };
   return (
-    <>
+    <S.Wrapper>
       <S.Label>{inputAtr[type]?.label ?? ''}</S.Label>
       <S.InputWrapper>
         <S.InputBox
@@ -83,7 +93,7 @@ const Input = ({ type, value, changeValue, onBlur, onError }: InputProps) => {
       <S.ErrorText $isError={isError}>
         {value ? '내용을 다시 작성해 주세요.' : '내용을 입력해주세요.'}
       </S.ErrorText>
-    </>
+    </S.Wrapper>
   );
 };
 

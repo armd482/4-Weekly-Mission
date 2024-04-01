@@ -3,6 +3,10 @@ import styled from 'styled-components';
 import FONT from '@/styles/font';
 import COLOR from '@/styles/colors';
 
+export const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 export const InputWrapper = styled.div`
   position: relative;
   flex-direction: column;
