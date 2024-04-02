@@ -90,6 +90,12 @@ const Input = ({
     return '비밀번호와 일치하지 않아요.';
   };
 
+  const { onChange, name, ref } = register(type, {
+    required: true,
+    pattern: pattern ?? /.*/,
+    validate: (value) => validateInput(value),
+  });
+
   return (
     <S.Wrapper>
       <S.Label>{inputAtr[type].label ?? ''}</S.Label>
@@ -97,13 +103,10 @@ const Input = ({
         <S.InputBox
           placeholder={inputAtr[type].placeholder ?? ''}
           type={showPassword ? 'text' : inputAtr[type].type}
+          ref={ref}
+          name={name}
+          onChange={onChange}
           $error={error}
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...register(type, {
-            required: true,
-            pattern: pattern ?? /.*/,
-            validate: (value) => validateInput(value),
-          })}
           onBlur={handleFocusOut}
           onFocus={handleFocusOn}
         />
