@@ -1,12 +1,17 @@
 import { useState } from 'react';
-import * as S from './input.style';
+import {
+  FieldValues,
+  UseFormRegister,
+  UseFormGetValues,
+} from 'react-hook-form';
+import * as S from './Input.style';
 
 interface InputProps {
   type: string;
-  value: string;
-  changeValue: (value: string) => void;
   onBlur?: () => void;
-  onError?: () => boolean;
+  onError?: (value: string) => string;
+  register: UseFormRegister<FieldValues>;
+  getValues: UseFormGetValues<FieldValues>;
 }
 
 type InputType = {
@@ -14,6 +19,7 @@ type InputType = {
     type: string;
     placeholder: string;
     label: string;
+    error: string;
   };
 };
 
@@ -22,32 +28,33 @@ const inputAtr: InputType = {
     type: 'text',
     placeholder: '이메일을 입력해주세요.',
     label: '이메일',
+    error: '올바른 이메일 주소가 아닙니다',
   },
   password: {
     type: 'password',
     placeholder: '비밀번호를 입력해주세요.',
     label: '비밀번호',
+    error: '',
   },
   password2: {
     type: 'password',
     placeholder: '영문, 숫자를 조합해 8자 이상 입력해주세요.',
     label: '비밀번호',
+    error: '비밀번호는 영문, 숫자 조합 8자 이상 입력해주세요',
   },
   checkpassword: {
     type: 'password',
     placeholder: '비밀번호와 일치하는 값을 입력해주세요.',
     label: '비밀번호 확인',
+    error: '비밀번호가 일치하지 않아요',
   },
 };
 
-const Input = ({ type, value, changeValue, onBlur, onError }: InputProps) => {
+const Input = ({ type, onBlur, onError, register, getValues }: InputProps) => {
   const [inputType, setInputType] = useState(inputAtr[type].type ?? '');
   const [showPassword, setShowPassword] = useState(false);
-  const [isError, setIsError] = useState(false);
-
-  const handleInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    changeValue(event.target.value);
-  };
+  const [error, setError] = useState('');
+  const value = getValues(type);
 
   const handleIconClick = () => {
     setShowPassword((prev) => !prev);
@@ -56,7 +63,8 @@ const Input = ({ type, value, changeValue, onBlur, onError }: InputProps) => {
 
   const handleFocusOut = () => {
     if (onError) {
-      setIsError(onError());
+      const errorMessage = onError(value);
+      setError(errorMessage);
     }
     if (onBlur) {
       onBlur();
@@ -64,18 +72,18 @@ const Input = ({ type, value, changeValue, onBlur, onError }: InputProps) => {
   };
 
   const handleFocusOn = () => {
-    setIsError(false);
+    setError('');
   };
   return (
     <S.Wrapper>
       <S.Label>{inputAtr[type].label ?? ''}</S.Label>
       <S.InputWrapper>
         <S.InputBox
-          value={value}
           placeholder={inputAtr[type].placeholder ?? ''}
           type={showPassword ? 'text' : inputAtr[type].type}
-          onChange={handleInput}
-          $isError={isError}
+          $error={error}
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...register(type)}
           onBlur={handleFocusOut}
           onFocus={handleFocusOn}
         />
@@ -90,16 +98,14 @@ const Input = ({ type, value, changeValue, onBlur, onError }: InputProps) => {
           />
         )}
       </S.InputWrapper>
-      <S.ErrorText $isError={isError}>
-        {value ? '내용을 다시 작성해 주세요.' : '내용을 입력해주세요.'}
-      </S.ErrorText>
+      <S.ErrorText $error={error}>{error}</S.ErrorText>
     </S.Wrapper>
   );
 };
 
 Input.defaultProps = {
   onBlur: () => {},
-  onError: () => false,
+  onError: () => '',
 };
 
 export default Input;

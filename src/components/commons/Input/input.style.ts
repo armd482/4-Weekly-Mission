@@ -20,10 +20,10 @@ export const Label = styled.label`
   color: #000000;
 `;
 
-export const InputBox = styled.input<{ $isError: boolean }>`
+export const InputBox = styled.input<{ $error: string }>`
   width: 100%;
   height: 100%;
-  border: 1px solid ${COLOR.Gray2};
+  border: 1px solid ${({ $error }) => ($error === '' ? COLOR.Gray2 : COLOR.Red)};
   border-radius: 8px;
   padding: 18px 45px 18px 15px;
   outline: 0;
@@ -46,9 +46,9 @@ export const EyeButton = styled(Image)`
   cursor: pointer;
 `;
 
-export const ErrorText = styled.p<{ $isError: boolean }>`
-  visibility: ${({ $isError }) => ($isError ? 'visible' : 'hidden')};
-  margin-top: 12px;
+export const ErrorText = styled.p<{ $error: string }>`
+  visibility: ${({ $error }) => ($error !== '' ? 'visible' : 'hidden')};
+  margin: 3px 0 9px 0;
   color: ${COLOR.Red};
   font-size: ${FONT.REGULAR_14};
 `;
