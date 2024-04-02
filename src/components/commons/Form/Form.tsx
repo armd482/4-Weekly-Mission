@@ -1,21 +1,25 @@
 import Input from '@/src/components/commons/Input/Input';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import * as S from './Form.style';
 
 type inputType = {
   type: string;
-  error?: (value: string) => string;
+  error?: (value: string, refValue: string) => string;
+  blur?: () => void;
+  refType?: string;
+  pattern?: RegExp;
 };
 
 interface FormProps {
   page: 'signin' | 'signup';
   inputForm: inputType[];
+  submit: (data: FieldValues) => void;
 }
 
-const Form = ({ page, inputForm }: FormProps) => {
-  const { getValues, register } = useForm();
+const Form = ({ page, inputForm, submit }: FormProps) => {
+  const { getValues, register, handleSubmit } = useForm();
   const subTitle = {
     signin: {
       href: '/signup',
@@ -36,9 +40,13 @@ const Form = ({ page, inputForm }: FormProps) => {
       href: 'https://www.kakaocorp.com/page',
     },
   ];
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log(data);
+    submit(data);
+  };
   return (
     <S.Wrapper>
-      <S.Form>
+      <S.Form onSubmit={handleSubmit(onSubmit)}>
         <S.TitleWrapper>
           <Link href="/">
             <Image
@@ -63,6 +71,9 @@ const Form = ({ page, inputForm }: FormProps) => {
             register={register}
             getValues={getValues}
             onError={input.error ? input.error : () => ''}
+            onBlur={input.blur ? input.blur : () => {}}
+            refType={input.refType}
+            pattern={input.pattern}
           />
         ))}
         <S.ButtonWraper>

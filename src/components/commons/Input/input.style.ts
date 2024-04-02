@@ -50,5 +50,5 @@ export const ErrorText = styled.p<{ $error: string }>`
   visibility: ${({ $error }) => ($error !== '' ? 'visible' : 'hidden')};
   margin: 3px 0 9px 0;
   color: ${COLOR.Red};
-  font-size: ${FONT.REGULAR_14};
+  ${FONT.REGULAR_14};
 `;

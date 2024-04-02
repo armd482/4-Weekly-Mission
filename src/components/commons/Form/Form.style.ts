@@ -51,9 +51,10 @@ export const ButtonWraper = styled.div`
   justify-content: center;
 `;
 
-export const SubmitButton = styled.div`
+export const SubmitButton = styled.button`
   width: 100%;
   border-radius: 8px;
+  border: 0;
   padding: 16px 20px;
   text-align: center;
   background-image: linear-gradient(90deg, ${COLOR.Primary}, #6ae3fe);
