@@ -19,7 +19,12 @@ interface FormProps {
 }
 
 const Form = ({ page, inputForm, submit }: FormProps) => {
-  const { getValues, register, handleSubmit } = useForm();
+  const {
+    getValues,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ mode: 'onBlur' });
   const subTitle = {
     signin: {
       href: '/signup',
@@ -70,10 +75,9 @@ const Form = ({ page, inputForm, submit }: FormProps) => {
             type={input.type}
             register={register}
             getValues={getValues}
-            onError={input.error ? input.error : () => ''}
-            onBlur={input.blur ? input.blur : () => {}}
+            Error={input.error ? input.error : () => ''}
             refType={input.refType}
-            pattern={input.pattern}
+            errors={errors}
           />
         ))}
         <S.ButtonWraper>
