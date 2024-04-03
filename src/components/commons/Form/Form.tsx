@@ -94,12 +94,7 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
           </S.SubTitle>
         </S.TitleWrapper>
         {inputForm.map((input) => (
-          <Input
-            key={input.id}
-            inputType={input}
-            form={form}
-            Blur={input.onBlur}
-          />
+          <Input key={input.id} inputType={input} form={form} />
         ))}
         <S.ButtonWraper>
           <S.SubmitButton>로그인</S.SubmitButton>

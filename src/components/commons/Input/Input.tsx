@@ -5,11 +5,10 @@ import * as S from './Input.style';
 
 interface InputProps {
   inputType: InputType;
-  Blur?: () => void;
   form: UseFormReturn;
 }
 
-const Input = ({ inputType, form, Blur }: InputProps) => {
+const Input = ({ inputType, form }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const ID = inputType.id;
   const {
@@ -30,8 +29,9 @@ const Input = ({ inputType, form, Blur }: InputProps) => {
   };
 
   const handleBlur = () => {
-    if (Blur) {
-      Blur();
+    const blurFunc = inputType.onBlur;
+    if (blurFunc) {
+      blurFunc();
     }
   };
 
@@ -79,10 +79,6 @@ const Input = ({ inputType, form, Blur }: InputProps) => {
       </S.ErrorText>
     </S.Wrapper>
   );
-};
-
-Input.defaultProps = {
-  Blur: () => {},
 };
 
 export default Input;
