@@ -72,3 +72,17 @@ export type folderCardDataType = {
   card: folderCardType[];
   error: null | unknown;
 };
+type errorMessage = {
+  empty?: string;
+  incorrect?: string;
+  inconsistent?: string;
+};
+export type InputType = {
+  id: string;
+  type: string;
+  label: string;
+  placeholder?: string;
+  pattern?: RegExp;
+  message?: errorMessage;
+  refID?: string;
+};

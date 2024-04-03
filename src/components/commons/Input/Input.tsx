@@ -5,70 +5,30 @@ import {
   UseFormGetValues,
   FieldErrors,
 } from 'react-hook-form';
+import { InputType } from '@/src/type';
 import * as S from './Input.style';
 
 interface InputProps {
-  type: string;
-  Error?: (value: string, refValue: string) => string;
+  inputType: InputType;
   Blur?: () => void;
   register: UseFormRegister<FieldValues>;
   getValues: UseFormGetValues<FieldValues>;
-  refType?: string;
   errors: FieldErrors;
 }
 
-type InputType = {
-  [key: string]: {
-    type: string;
-    placeholder: string;
-    label: string;
-    error: string;
-  };
-};
-
-const inputAtr: InputType = {
-  email: {
-    type: 'text',
-    placeholder: '이메일을 입력해주세요.',
-    label: '이메일',
-    error: '이메일을 입력해 주세요.',
-  },
-  password: {
-    type: 'password',
-    placeholder: '비밀번호를 입력해주세요.',
-    label: '비밀번호',
-    error: '비밀번호를 입력해주세요.',
-  },
-  password2: {
-    type: 'password',
-    placeholder: '영문, 숫자를 조합해 8자 이상 입력해주세요.',
-    label: '비밀번호',
-    error: '비밀번호를 입력해주세요.',
-  },
-  checkpassword: {
-    type: 'password',
-    placeholder: '비밀번호와 일치하는 값을 입력해주세요.',
-    label: '비밀번호 확인',
-    error: '비밀번호를 입력해주세요.',
-  },
-};
-
 const Input = ({
-  type,
-  refType,
-  Error,
+  inputType,
   register,
   getValues,
   errors,
   Blur,
 }: InputProps) => {
-  const [inputType, setInputType] = useState(inputAtr[type].type ?? '');
   const [showPassword, setShowPassword] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
+  const ID = inputType.id;
 
   const handleIconClick = () => {
     setShowPassword((prev) => !prev);
-    setInputType(inputType === 'password' ? 'text' : 'password');
   };
 
   const handleFocus = () => {
@@ -76,39 +36,42 @@ const Input = ({
   };
 
   const validateInput = (value: string) => {
-    if (Error) {
-      const errorMessage = Error(String(value), getValues(refType ?? type));
-      if (errorMessage === '') return true;
-      return errorMessage;
+    if (inputType.refID && value !== getValues(inputType.refID)) {
+      return inputType.message?.inconsistent ?? true;
     }
     return true;
   };
   const handleBlur = () => {
     setIsFocus(false);
+    console.log(errors);
     if (Blur) {
       Blur();
     }
   };
-  const { onBlur, name, ref } = register(type, {
-    required: inputAtr[type].error,
+  const { onBlur, name, ref } = register(ID, {
+    required: inputType.message?.empty ?? true,
+    pattern: {
+      value: inputType.pattern ?? /[\s\S]+/,
+      message: inputType.message?.incorrect ?? '',
+    },
     validate: (value) => validateInput(value),
     onBlur: handleBlur,
   });
 
   return (
     <S.Wrapper>
-      <S.Label>{inputAtr[type].label ?? ''}</S.Label>
+      <S.Label>{inputType.label}</S.Label>
       <S.InputWrapper>
         <S.InputBox
-          placeholder={inputAtr[type].placeholder ?? ''}
-          type={showPassword ? 'text' : inputAtr[type].type}
+          placeholder={inputType.placeholder ?? ''}
+          type={showPassword ? 'text' : inputType.type}
           ref={ref}
           name={name}
           onBlur={onBlur}
-          $error={String(errors[type]?.message ?? '')}
+          $error={String(errors[ID]?.message ?? '')}
           onFocus={handleFocus}
         />
-        {inputAtr[type].type === 'password' && (
+        {inputType.type === 'password' && (
           <S.EyeButton
             src={`/icons/eye-${showPassword ? 'on' : 'off'}.svg`}
             alt="눈 모양"
@@ -121,19 +84,17 @@ const Input = ({
       </S.InputWrapper>
       <S.ErrorText
         $error={String(
-          errors[type]?.message && !isFocus ? errors[type]?.message : '',
+          errors[ID]?.message && !isFocus ? errors[ID]?.message : '',
         )}
       >
-        {String(errors[type]?.message)}
+        {String(errors[ID]?.message)}
       </S.ErrorText>
     </S.Wrapper>
   );
 };
 
 Input.defaultProps = {
-  Error: () => '',
   Blur: () => {},
-  refType: '',
 };
 
 export default Input;

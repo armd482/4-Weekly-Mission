@@ -1,29 +1,28 @@
 import Form from '@/src/components/commons/Form/Form';
+import { InputType } from '@/src/type';
 
 function Signin() {
-  const validEmail = (value: string) => {
-    const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
-    if (!value) {
-      return '이메일을 입력해 주세요.';
-    }
-    if (!regex.test(value)) {
-      return '올바른 이베일 주소가 아닙니다';
-    }
-    return '';
-  };
-  const validPassword = (value: string) => {
-    if (!value) {
-      return '비밀번호를 입력해 주세요.';
-    }
-    return '';
-  };
-  const inputForm = [
+  const inputForm: InputType[] = [
     {
-      type: 'email',
-      error: validEmail,
+      id: 'signinEmail',
+      type: 'text',
+      label: '이메일',
+      placeholder: '이메일을 입력해주세요.',
       pattern: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i,
+      message: {
+        empty: '이메일을 입력해주세요.',
+        incorrect: '올바른 이메일 주소가 아닙니다.',
+      },
     },
-    { type: 'password', error: validPassword },
+    {
+      id: 'signinPassword',
+      type: 'password',
+      label: '비밀번호',
+      placeholder: '비밀번호를 입력해 주세요.',
+      message: {
+        empty: '비밀번호를 입력해주세요.',
+      },
+    },
   ];
   return <Form page="signin" inputForm={inputForm} submit={() => {}} />;
 }

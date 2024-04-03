@@ -2,19 +2,12 @@ import Input from '@/src/components/commons/Input/Input';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+import { InputType } from '@/src/type';
 import * as S from './Form.style';
-
-type inputType = {
-  type: string;
-  error?: (value: string, refValue: string) => string;
-  blur?: () => void;
-  refType?: string;
-  pattern?: RegExp;
-};
 
 interface FormProps {
   page: 'signin' | 'signup';
-  inputForm: inputType[];
+  inputForm: InputType[];
   submit: (data: FieldValues) => void;
 }
 
@@ -71,12 +64,10 @@ const Form = ({ page, inputForm, submit }: FormProps) => {
         </S.TitleWrapper>
         {inputForm.map((input) => (
           <Input
-            key={input.type}
-            type={input.type}
+            key={input.id}
+            inputType={input}
             register={register}
             getValues={getValues}
-            Error={input.error ? input.error : () => ''}
-            refType={input.refType}
             errors={errors}
           />
         ))}
