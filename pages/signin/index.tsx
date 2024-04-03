@@ -1,13 +1,10 @@
 import { signinAPI } from '@/src/apis/bootcampAPI';
 import Form from '@/src/components/commons/Form/Form';
 import { InputType } from '@/src/type';
-import { useRouter } from 'next/router';
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 function Signin() {
-  const router = useRouter();
   const form = useForm({ mode: 'onBlur' });
-  const { setError } = form;
   const inputForm: InputType[] = [
     {
       id: 'signinEmail',
@@ -31,28 +28,29 @@ function Signin() {
     },
   ];
 
-  const submitFunction = async (data: FieldValues) => {
-    const APIData = await signinAPI(data.signinEmail, data.signinPassword);
-    if (APIData.error) {
-      setError('signinEmail', {
-        type: 'custom',
+  const submitData = {
+    APIFunc: signinAPI,
+    dataName: {
+      email: 'signinEmail',
+      password: 'signinPassword',
+    },
+    errorMessages: [
+      {
+        name: 'signinEmail',
         message: '이메일을 확인해 주세요.',
-      });
-      setError('signinPassword', {
-        type: 'custom',
+      },
+      {
+        name: 'signinPassword',
         message: '비밀번호를 확인해 주세요.',
-      });
-      return;
-    }
-    localStorage.setItem('accessToken', APIData.accessToken);
-    localStorage.setItem('refreshToken', APIData.refreshToken);
-    router.push('/folder');
+      },
+    ],
   };
+
   return (
     <Form
       page="signin"
       inputForm={inputForm}
-      submit={submitFunction}
+      submitData={submitData}
       form={form}
     />
   );

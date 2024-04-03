@@ -2,18 +2,36 @@ import Input from '@/src/components/commons/Input/Input';
 import Image from 'next/image';
 import Link from 'next/link';
 import { SubmitHandler, FieldValues, UseFormReturn } from 'react-hook-form';
-import { InputType } from '@/src/type';
+import { InputType, signinDataType } from '@/src/type';
+import { useRouter } from 'next/router';
 import * as S from './Form.style';
+
+type errorMessageType = {
+  name: string;
+  message: string;
+};
+
+type dataNameType = {
+  email: string;
+  password: string;
+};
+
+type submitDataType = {
+  APIFunc: (email: string, password: string) => Promise<signinDataType>;
+  dataName: dataNameType;
+  errorMessages: errorMessageType[];
+};
 
 interface FormProps {
   page: 'signin' | 'signup';
   inputForm: InputType[];
-  submit: (data: FieldValues) => Promise<void>;
+  submitData: submitDataType;
   form: UseFormReturn;
 }
 
-const Form = ({ page, inputForm, submit, form }: FormProps) => {
-  const { handleSubmit } = form;
+const Form = ({ page, inputForm, submitData, form }: FormProps) => {
+  const { handleSubmit, setError } = form;
+  const router = useRouter();
   const subTitle = {
     signin: {
       href: '/signup',
@@ -34,9 +52,24 @@ const Form = ({ page, inputForm, submit, form }: FormProps) => {
       href: 'https://www.kakaocorp.com/page',
     },
   ];
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
-    submit(data);
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const [email, password] = [
+      submitData.dataName.email,
+      submitData.dataName.password,
+    ];
+    const APIData = await submitData.APIFunc(data[email], data[password]);
+    if (APIData.error) {
+      submitData.errorMessages.forEach((errorMessage) => {
+        setError(errorMessage.name, {
+          type: 'custom',
+          message: errorMessage.message,
+        });
+      });
+      return;
+    }
+    localStorage.setItem('accessToken', APIData.accessToken);
+    localStorage.setItem('refreshToken', APIData.refreshToken);
+    router.push('/folder');
   };
   return (
     <S.Wrapper>

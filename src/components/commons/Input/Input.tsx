@@ -39,7 +39,7 @@ const Input = ({ inputType, form, Blur }: InputProps) => {
     clearErrors(ID);
   };
 
-  const { onBlur, name, ref } = register(ID, {
+  const { onBlur, name, ref, onChange } = register(ID, {
     required: inputType.message?.empty ?? true,
     pattern: {
       value: inputType.pattern ?? /[\s\S]+/,
@@ -61,6 +61,7 @@ const Input = ({ inputType, form, Blur }: InputProps) => {
           onBlur={onBlur}
           $error={String(errors[ID]?.message ?? '')}
           onFocus={handleFocus}
+          onChange={onChange}
         />
         {inputType.type === 'password' && (
           <S.EyeButton
