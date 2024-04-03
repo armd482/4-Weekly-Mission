@@ -1,10 +1,12 @@
 import { signupAPI } from '@/src/apis/bootcampAPI';
 import Form from '@/src/components/commons/Form/Form';
 import { useRouter } from 'next/router';
-import { FieldValues } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 
 function Signup() {
   const router = useRouter();
+  const form = useForm({ mode: 'onBlur' });
+  const { setError } = form;
   const inputForm = [
     {
       id: 'signupEmail',
@@ -43,18 +45,38 @@ function Signup() {
       },
     },
   ];
-  const setError = () => {};
   const submitFunction = async (data: FieldValues) => {
     const APIData = await signupAPI(data.signupEmail, data.signupPassword);
     if (APIData.error) {
-      setError();
+      if (APIData.error) {
+        setError('signupEmail', {
+          type: 'custom',
+          message: '이메일을 확인해 주세요.',
+        });
+        setError('signupPassword', {
+          type: 'custom',
+          message: '비밀번호를 확인해 주세요.',
+        });
+        setError('signupConfirmPassword', {
+          type: 'custom',
+          message: '비밀번호를 확인해 주세요.',
+        });
+        return;
+      }
       return;
     }
     localStorage.setItem('accessToken', APIData.accessToken);
     localStorage.setItem('refreshToken', APIData.refreshToken);
     router.push('/folder');
   };
-  return <Form page="signup" inputForm={inputForm} submit={submitFunction} />;
+  return (
+    <Form
+      page="signup"
+      inputForm={inputForm}
+      submit={submitFunction}
+      form={form}
+    />
+  );
 }
 
 export default Signup;

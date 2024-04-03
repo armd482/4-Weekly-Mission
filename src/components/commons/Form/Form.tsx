@@ -1,7 +1,7 @@
 import Input from '@/src/components/commons/Input/Input';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+import { SubmitHandler, FieldValues, UseFormReturn } from 'react-hook-form';
 import { InputType } from '@/src/type';
 import * as S from './Form.style';
 
@@ -9,15 +9,11 @@ interface FormProps {
   page: 'signin' | 'signup';
   inputForm: InputType[];
   submit: (data: FieldValues) => Promise<void>;
+  form: UseFormReturn;
 }
 
-const Form = ({ page, inputForm, submit }: FormProps) => {
-  const {
-    getValues,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ mode: 'onBlur' });
+const Form = ({ page, inputForm, submit, form }: FormProps) => {
+  const { handleSubmit } = form;
   const subTitle = {
     signin: {
       href: '/signup',
@@ -66,9 +62,7 @@ const Form = ({ page, inputForm, submit }: FormProps) => {
           <Input
             key={input.id}
             inputType={input}
-            register={register}
-            getValues={getValues}
-            errors={errors}
+            form={form}
             Blur={input.onBlur}
           />
         ))}

@@ -1,38 +1,25 @@
 import { useState } from 'react';
-import {
-  FieldValues,
-  UseFormRegister,
-  UseFormGetValues,
-  FieldErrors,
-} from 'react-hook-form';
+import { UseFormReturn } from 'react-hook-form';
 import { InputType } from '@/src/type';
 import * as S from './Input.style';
 
 interface InputProps {
   inputType: InputType;
   Blur?: () => void;
-  register: UseFormRegister<FieldValues>;
-  getValues: UseFormGetValues<FieldValues>;
-  errors: FieldErrors;
+  form: UseFormReturn;
 }
 
-const Input = ({
-  inputType,
-  register,
-  getValues,
-  errors,
-  Blur,
-}: InputProps) => {
+const Input = ({ inputType, form, Blur }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [isFocus, setIsFocus] = useState(false);
   const ID = inputType.id;
-
+  const {
+    getValues,
+    register,
+    formState: { errors },
+    clearErrors,
+  } = form;
   const handleIconClick = () => {
     setShowPassword((prev) => !prev);
-  };
-
-  const handleFocus = () => {
-    setIsFocus(true);
   };
 
   const validateInput = (value: string) => {
@@ -42,12 +29,16 @@ const Input = ({
     return true;
   };
   const handleBlur = () => {
-    setIsFocus(false);
     console.log(errors);
     if (Blur) {
       Blur();
     }
   };
+
+  const handleFocus = () => {
+    clearErrors(ID);
+  };
+
   const { onBlur, name, ref } = register(ID, {
     required: inputType.message?.empty ?? true,
     pattern: {
@@ -82,11 +73,7 @@ const Input = ({
           />
         )}
       </S.InputWrapper>
-      <S.ErrorText
-        $error={String(
-          errors[ID]?.message && !isFocus ? errors[ID]?.message : '',
-        )}
-      >
+      <S.ErrorText $error={String(errors[ID]?.message ?? '')}>
         {String(errors[ID]?.message)}
       </S.ErrorText>
     </S.Wrapper>
