@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { SubmitHandler, FieldValues, UseFormReturn } from 'react-hook-form';
 import { InputType, signinDataType } from '@/src/type';
 import { useRouter } from 'next/router';
+import useLoginRouter from '@/src/hooks/useLoginRouter';
 import * as S from './Form.style';
 
 type errorMessageType = {
@@ -30,6 +31,7 @@ interface FormProps {
 }
 
 const Form = ({ page, inputForm, submitData, form }: FormProps) => {
+  useLoginRouter('/folder');
   const { handleSubmit, setError } = form;
   const router = useRouter();
   const subTitle = {
