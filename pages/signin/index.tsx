@@ -1,7 +1,11 @@
+import { signinAPI } from '@/src/apis/bootcampAPI';
 import Form from '@/src/components/commons/Form/Form';
 import { InputType } from '@/src/type';
+import { useRouter } from 'next/router';
+import { FieldValues } from 'react-hook-form';
 
 function Signin() {
+  const router = useRouter();
   const inputForm: InputType[] = [
     {
       id: 'signinEmail',
@@ -24,7 +28,18 @@ function Signin() {
       },
     },
   ];
-  return <Form page="signin" inputForm={inputForm} submit={() => {}} />;
+  const setError = () => {};
+  const submitFunction = async (data: FieldValues) => {
+    const APIData = await signinAPI(data.signinEmail, data.signinPassword);
+    if (APIData.error) {
+      setError();
+      return;
+    }
+    localStorage.setItem('accessToken', APIData.accessToken);
+    localStorage.setItem('refreshToken', APIData.refreshToken);
+    router.push('/folder');
+  };
+  return <Form page="signin" inputForm={inputForm} submit={submitFunction} />;
 }
 
 export default Signin;

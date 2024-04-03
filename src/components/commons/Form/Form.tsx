@@ -8,7 +8,7 @@ import * as S from './Form.style';
 interface FormProps {
   page: 'signin' | 'signup';
   inputForm: InputType[];
-  submit: (data: FieldValues) => void;
+  submit: (data: FieldValues) => Promise<void>;
 }
 
 const Form = ({ page, inputForm, submit }: FormProps) => {
@@ -69,6 +69,7 @@ const Form = ({ page, inputForm, submit }: FormProps) => {
             register={register}
             getValues={getValues}
             errors={errors}
+            Blur={input.onBlur}
           />
         ))}
         <S.ButtonWraper>

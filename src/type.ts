@@ -85,4 +85,10 @@ export type InputType = {
   pattern?: RegExp;
   message?: errorMessage;
   refID?: string;
+  onBlur?: () => void;
+};
+export type signinDataType = {
+  accessToken: string;
+  refreshToken: string;
+  error: null | unknown;
 };

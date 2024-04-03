@@ -1,4 +1,5 @@
 import Form from '@/src/components/commons/Form/Form';
+import { FieldValues } from 'react-hook-form';
 
 function Signup() {
   const inputForm = [
@@ -12,6 +13,7 @@ function Signup() {
         empty: '이메일을 입력해주세요.',
         incorrect: '올바른 이메일 주소가 아닙니다.',
       },
+      onblur: () => {},
     },
     {
       id: 'signupPassword',
@@ -38,7 +40,10 @@ function Signup() {
       },
     },
   ];
-  return <Form page="signup" inputForm={inputForm} submit={() => {}} />;
+  const submitFunction = async (data: FieldValues) => {
+    console.log(data);
+  };
+  return <Form page="signup" inputForm={inputForm} submit={submitFunction} />;
 }
 
 export default Signup;

@@ -4,6 +4,7 @@ import {
   FolderDataType,
   CategoryDataType,
   folderCardDataType,
+  signinDataType,
 } from '../type';
 
 export const getUserSampleDataAPI = async (): Promise<UserDataType> => {
@@ -86,6 +87,28 @@ export const getCardDataAPI = async (
     const response = await instance.get('/users/4/links');
     const { data } = response;
     APIData.card = data.data;
+    return APIData;
+  } catch (error) {
+    APIData.error = error;
+    return APIData;
+  }
+};
+
+export const signinAPI = async (email: string, password: string) => {
+  const APIData: signinDataType = {
+    accessToken: '',
+    refreshToken: '',
+    error: null,
+  };
+  try {
+    const response = await instance.post('/sign-in', { email, password });
+    const {
+      data: {
+        data: { accessToken, refreshToken },
+      },
+    } = response;
+    APIData.accessToken = accessToken;
+    APIData.refreshToken = refreshToken;
     return APIData;
   } catch (error) {
     APIData.error = error;
