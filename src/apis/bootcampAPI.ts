@@ -123,7 +123,7 @@ export const signupAPI = async (email: string, password: string) => {
     error: null,
   };
   try {
-    const response = await instance.post('sign-up', { email, password });
+    const response = await instance.post('/sign-up', { email, password });
     const {
       data: {
         data: { accessToken, refreshToken },
@@ -135,5 +135,14 @@ export const signupAPI = async (email: string, password: string) => {
   } catch (error) {
     APIData.error = error;
     return APIData;
+  }
+};
+
+export const checkEmailAPI = async (email: string) => {
+  try {
+    await instance.post('/check-email', { email });
+    return true;
+  } catch (error) {
+    return false;
   }
 };

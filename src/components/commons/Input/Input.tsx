@@ -28,8 +28,8 @@ const Input = ({ inputType, form, Blur }: InputProps) => {
     }
     return true;
   };
+
   const handleBlur = () => {
-    console.log(errors);
     if (Blur) {
       Blur();
     }

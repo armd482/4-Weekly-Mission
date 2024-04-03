@@ -1,11 +1,10 @@
 import { signinAPI } from '@/src/apis/bootcampAPI';
 import Form from '@/src/components/commons/Form/Form';
-import { InputType } from '@/src/type';
 import { useForm } from 'react-hook-form';
 
 function Signin() {
   const form = useForm({ mode: 'onBlur' });
-  const inputForm: InputType[] = [
+  const inputForm = [
     {
       id: 'signinEmail',
       type: 'text',

@@ -1,9 +1,27 @@
-import { signupAPI } from '@/src/apis/bootcampAPI';
+import { checkEmailAPI, signupAPI } from '@/src/apis/bootcampAPI';
 import Form from '@/src/components/commons/Form/Form';
 import { useForm } from 'react-hook-form';
 
 function Signup() {
   const form = useForm({ mode: 'onBlur' });
+  const { getValues, setError } = form;
+
+  const emailCheck = async () => {
+    const value = getValues('signupEmail');
+    const regExp = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
+
+    if (!regExp.test(value)) {
+      return;
+    }
+    const flag = await checkEmailAPI(value);
+    if (!flag) {
+      setError('signupEmail', {
+        type: 'custom',
+        message: '이미 사용중인 이메일입니다.',
+      });
+    }
+  };
+
   const inputForm = [
     {
       id: 'signupEmail',
@@ -15,7 +33,7 @@ function Signup() {
         empty: '이메일을 입력해주세요.',
         incorrect: '올바른 이메일 주소가 아닙니다.',
       },
-      onblur: () => {},
+      onBlur: emailCheck,
     },
     {
       id: 'signupPassword',
