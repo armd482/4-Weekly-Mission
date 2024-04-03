@@ -1,7 +1,10 @@
+import { signupAPI } from '@/src/apis/bootcampAPI';
 import Form from '@/src/components/commons/Form/Form';
+import { useRouter } from 'next/router';
 import { FieldValues } from 'react-hook-form';
 
 function Signup() {
+  const router = useRouter();
   const inputForm = [
     {
       id: 'signupEmail',
@@ -40,8 +43,16 @@ function Signup() {
       },
     },
   ];
+  const setError = () => {};
   const submitFunction = async (data: FieldValues) => {
-    console.log(data);
+    const APIData = await signupAPI(data.signupEmail, data.signupPassword);
+    if (APIData.error) {
+      setError();
+      return;
+    }
+    localStorage.setItem('accessToken', APIData.accessToken);
+    localStorage.setItem('refreshToken', APIData.refreshToken);
+    router.push('/folder');
   };
   return <Form page="signup" inputForm={inputForm} submit={submitFunction} />;
 }

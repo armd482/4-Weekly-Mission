@@ -115,3 +115,25 @@ export const signinAPI = async (email: string, password: string) => {
     return APIData;
   }
 };
+
+export const signupAPI = async (email: string, password: string) => {
+  const APIData: signinDataType = {
+    accessToken: '',
+    refreshToken: '',
+    error: null,
+  };
+  try {
+    const response = await instance.post('sign-up', { email, password });
+    const {
+      data: {
+        data: { accessToken, refreshToken },
+      },
+    } = response;
+    APIData.accessToken = accessToken;
+    APIData.refreshToken = refreshToken;
+    return APIData;
+  } catch (error) {
+    APIData.error = error;
+    return APIData;
+  }
+};
