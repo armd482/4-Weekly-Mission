@@ -120,7 +120,7 @@ const Folder = ({ folderData, cardData }: FolderProps) => {
       </S.FolderWrapper>
       <S.TitleWrapper>
         <S.FolderTitle>{currentFolder}</S.FolderTitle>
-        {folderID !== '0' && (
+        {folderID && folderID !== '0' && (
           <S.OptionWrapper>
             {OPTION.map((option) => (
               <S.OptionButtonWrapper
