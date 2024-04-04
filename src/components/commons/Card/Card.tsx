@@ -57,6 +57,7 @@ const Card = ({ page, card, folderData }: CardProps) => {
             height={200}
             ref={ImageRef}
             onError={failImageLoad}
+            priority
           />
         </S.CardImageWrapper>
         <S.CardContentWrapper>
