@@ -5,6 +5,7 @@ import { SubmitHandler, FieldValues, UseFormReturn } from 'react-hook-form';
 import { InputType, signinDataType } from '@/src/type';
 import { useRouter } from 'next/router';
 import useLoginRouter from '@/src/hooks/useLoginRouter';
+import { useCallback, useState } from 'react';
 import * as S from './Form.style';
 
 type errorMessageType = {
@@ -33,6 +34,7 @@ interface FormProps {
 const Form = ({ page, inputForm, submitData, form }: FormProps) => {
   useLoginRouter('/folder');
   const { handleSubmit, setError } = form;
+  const [submit, setSubmit] = useState(false);
   const router = useRouter();
   const subTitle = {
     signin: {
@@ -54,6 +56,11 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
       href: 'https://www.kakaocorp.com/page',
     },
   ];
+
+  const changeSubmit = useCallback((value: boolean) => {
+    setSubmit(value);
+  }, []);
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const [email, password] = [
       submitData.dataName.email,
@@ -63,16 +70,18 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
     if (APIData.error) {
       submitData.errorMessages.forEach((errorMessage) => {
         setError(errorMessage.name, {
-          type: 'custom',
+          type: 'manual',
           message: errorMessage.message,
         });
       });
+      setSubmit(true);
       return;
     }
     localStorage.setItem('accessToken', APIData.accessToken);
     localStorage.setItem('refreshToken', APIData.refreshToken);
     router.push('/folder');
   };
+
   return (
     <S.Wrapper>
       <S.Form onSubmit={handleSubmit(onSubmit)}>
@@ -94,7 +103,13 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
           </S.SubTitle>
         </S.TitleWrapper>
         {inputForm.map((input) => (
-          <Input key={input.id} inputType={input} form={form} />
+          <Input
+            key={input.id}
+            inputType={input}
+            form={form}
+            submit={submit}
+            changeSubmit={changeSubmit}
+          />
         ))}
         <S.ButtonWraper>
           <S.SubmitButton>로그인</S.SubmitButton>

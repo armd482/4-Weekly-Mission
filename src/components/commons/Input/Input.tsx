@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { InputType } from '@/src/type';
 import * as S from './Input.style';
@@ -6,9 +6,12 @@ import * as S from './Input.style';
 interface InputProps {
   inputType: InputType;
   form: UseFormReturn;
+  submit: boolean;
+  changeSubmit: (value: boolean) => void;
 }
 
-const Input = ({ inputType, form }: InputProps) => {
+const Input = ({ inputType, form, submit, changeSubmit }: InputProps) => {
+  const inputRef = useRef<HTMLInputElement>();
   const [showPassword, setShowPassword] = useState(false);
   const ID = inputType.id;
   const {
@@ -49,6 +52,13 @@ const Input = ({ inputType, form }: InputProps) => {
     onBlur: handleBlur,
   });
 
+  useEffect(() => {
+    if (submit) {
+      inputRef.current?.blur();
+      changeSubmit(false);
+    }
+  }, [submit, changeSubmit]);
+
   return (
     <S.Wrapper>
       <S.Label>{inputType.label}</S.Label>
@@ -56,7 +66,10 @@ const Input = ({ inputType, form }: InputProps) => {
         <S.InputBox
           placeholder={inputType.placeholder ?? ''}
           type={showPassword ? 'text' : inputType.type}
-          ref={ref}
+          ref={(e) => {
+            ref(e);
+            inputRef.current = e ?? undefined;
+          }}
           name={name}
           onBlur={onBlur}
           $error={String(errors[ID]?.message ?? '')}
