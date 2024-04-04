@@ -1,8 +1,8 @@
-import { CategoryDataType, folderCardType } from '@/src/type';
 import { useContext, useState } from 'react';
-import { FolderContext } from '@/src/context/folderContext';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { FolderContext } from '@/src/context/folderContext';
+import { CategoryDataType, folderCardType } from '@/src/type';
 import * as S from './Folder.style';
 import Card from '../../commons/Card/Card';
 

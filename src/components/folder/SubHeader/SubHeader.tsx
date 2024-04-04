@@ -1,7 +1,7 @@
 import { ChangeEvent, useContext, useState } from 'react';
+import { useRouter } from 'next/router';
 import { FolderContext } from '@/src/context/folderContext';
 import { CategoryDataType } from '@/src/type';
-import { useRouter } from 'next/router';
 import * as S from './SubHeader.style';
 
 interface SubHeaderProps {

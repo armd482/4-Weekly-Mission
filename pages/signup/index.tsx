@@ -1,6 +1,6 @@
+import { useForm } from 'react-hook-form';
 import { checkEmailAPI, signupAPI } from '@/src/apis/bootcampAPI';
 import Form from '@/src/components/commons/Form/Form';
-import { useForm } from 'react-hook-form';
 
 function Signup() {
   const form = useForm({ mode: 'onBlur' });

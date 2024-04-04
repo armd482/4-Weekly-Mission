@@ -1,5 +1,5 @@
-import COLOR from '@/styles/colors';
 import styled from 'styled-components';
+import COLOR from '@/styles/colors';
 
 export const Wrapper = styled.div`
   position: relative;

@@ -1,8 +1,9 @@
+import { useState, useCallback, useRef, useEffect } from 'react';
+import { GetServerSideProps } from 'next';
 import Header from '@/src/components/commons/Header/Header';
 import SearchBar from '@/src/components/commons/SearchBar/SearchBar';
 import SubHeader from '@/src/components/folder/SubHeader/SubHeader';
 import Footer from '@/src/components/commons/Footer/Footer';
-import { useState, useCallback, useRef, useEffect } from 'react';
 import {
   getCategoryDataAPI,
   getCardDataAPI,
@@ -18,7 +19,6 @@ import {
 import Folder from '@/src/components/folder/Folder/Folder';
 import Modal from '@/src/components/folder/Modal/Modal';
 import FilterData from '@/src/utils/FilterData';
-import { GetServerSideProps } from 'next';
 import * as S from '../../styles/folder.style';
 
 interface pagePropsType {

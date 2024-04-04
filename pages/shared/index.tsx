@@ -1,3 +1,4 @@
+import { useCallback, useState } from 'react';
 import Header from '@/src/components/commons/Header/Header';
 import SubHeader from '@/src/components/shared/SubHeader/SubHeader';
 import SearchBar from '@/src/components/commons/SearchBar/SearchBar';
@@ -5,7 +6,6 @@ import Card from '@/src/components/commons/Card/Card';
 import Footer from '@/src/components/commons/Footer/Footer';
 import { getFolderDataAPI, getUserSampleDataAPI } from '@/src/apis/bootcampAPI';
 import { FolderDataType, UserDataType, cardDataType } from '@/src/type';
-import { useCallback, useState } from 'react';
 import FilterData from '@/src/utils/FilterData';
 import * as S from '../../styles/shared.style';
 

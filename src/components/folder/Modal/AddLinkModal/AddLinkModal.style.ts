@@ -1,6 +1,6 @@
+import styled from 'styled-components';
 import COLOR from '@/styles/colors';
 import FONT from '@/styles/font';
-import styled from 'styled-components';
 
 const InputText = styled.input`
   width: 100%;

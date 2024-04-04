@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import FONT from '@/styles/font';
 import Image from 'next/image';
+import FONT from '@/styles/font';
 
 export const Wrapper = styled.div`
   position: relative;

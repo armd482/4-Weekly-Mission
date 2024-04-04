@@ -1,6 +1,6 @@
-import COLOR from '@/styles/colors';
 import Image from 'next/image';
 import styled from 'styled-components';
+import COLOR from '@/styles/colors';
 
 export const ModalBackground = styled.div`
   position: absolute;

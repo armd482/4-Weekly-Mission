@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
+import Link from 'next/link';
 import CardUpdateStatus from '@/src/utils/CardUpdateStatus';
 import CardDateFormat from '@/src/utils/CardDateFormat';
-import Link from 'next/link';
 import { CategoryDataType, cardDataType } from '@/src/type';
 import * as S from './Card.style';
 import Kebab from '../Kebab/Kebab';

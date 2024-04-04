@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import COLOR from '@/styles/colors';
 import Image from 'next/image';
+import COLOR from '@/styles/colors';
 
 export const Wrapper = styled.div`
   display: flex;
