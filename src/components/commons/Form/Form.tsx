@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SubmitHandler, FieldValues, UseFormReturn } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { InputType, signinDataType } from '@/src/type';
 import useLoginRouter from '@/src/hooks/useLoginRouter';
 import Input from '@/src/components/commons/Input/Input';
@@ -57,10 +57,6 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
     },
   ];
 
-  const changeSubmit = useCallback((value: boolean) => {
-    setSubmit(value);
-  }, []);
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const [email, password] = [
       submitData.dataName.email,
@@ -74,7 +70,7 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
           message: errorMessage.message,
         });
       });
-      setSubmit(true);
+      setSubmit((prev) => !prev);
       return;
     }
     localStorage.setItem('accessToken', APIData.accessToken);
@@ -103,13 +99,7 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
           </S.SubTitle>
         </S.TitleWrapper>
         {inputForm.map((input) => (
-          <Input
-            key={input.id}
-            inputType={input}
-            form={form}
-            submit={submit}
-            changeSubmit={changeSubmit}
-          />
+          <Input key={input.id} inputType={input} form={form} submit={submit} />
         ))}
         <S.ButtonWraper>
           <S.SubmitButton>로그인</S.SubmitButton>

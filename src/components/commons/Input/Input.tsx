@@ -6,11 +6,10 @@ import * as S from './Input.style';
 interface InputProps {
   inputType: InputType;
   form: UseFormReturn;
-  submit: boolean;
-  changeSubmit: (value: boolean) => void;
+  submit?: boolean;
 }
 
-const Input = ({ inputType, form, submit, changeSubmit }: InputProps) => {
+const Input = ({ inputType, form, submit }: InputProps) => {
   const inputRef = useRef<HTMLInputElement>();
   const [showPassword, setShowPassword] = useState(false);
   const ID = inputType.id;
@@ -53,11 +52,10 @@ const Input = ({ inputType, form, submit, changeSubmit }: InputProps) => {
   });
 
   useEffect(() => {
-    if (submit) {
-      inputRef.current?.blur();
-      changeSubmit(false);
+    if (submit !== undefined && inputRef.current) {
+      inputRef.current.blur();
     }
-  }, [submit, changeSubmit]);
+  }, [submit]);
 
   return (
     <S.Wrapper>
@@ -92,6 +90,9 @@ const Input = ({ inputType, form, submit, changeSubmit }: InputProps) => {
       </S.ErrorText>
     </S.Wrapper>
   );
+};
+Input.defaultProps = {
+  submit: false,
 };
 
 export default Input;
