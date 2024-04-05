@@ -3,7 +3,7 @@ import { signinAPI } from '@/src/apis/bootcampAPI';
 import Form from '@/src/components/commons/Form/Form';
 
 function Signin() {
-  const form = useForm({ mode: 'onBlur' });
+  const form = useForm({ mode: 'onBlur', reValidateMode: 'onBlur' });
   const inputForm = [
     {
       id: 'signinEmail',

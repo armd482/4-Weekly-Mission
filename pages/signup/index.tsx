@@ -3,7 +3,7 @@ import { checkEmailAPI, signupAPI } from '@/src/apis/bootcampAPI';
 import Form from '@/src/components/commons/Form/Form';
 
 function Signup() {
-  const form = useForm({ mode: 'onBlur' });
+  const form = useForm({ mode: 'onBlur', reValidateMode: 'onBlur' });
   const { getValues, setError } = form;
 
   const emailCheck = async () => {

@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { SubmitHandler, FieldValues, UseFormReturn } from 'react-hook-form';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useRef } from 'react';
 import { InputType, signinDataType } from '@/src/type';
 import useLoginRouter from '@/src/hooks/useLoginRouter';
 import Input from '@/src/components/commons/Input/Input';
@@ -34,7 +34,7 @@ interface FormProps {
 const Form = ({ page, inputForm, submitData, form }: FormProps) => {
   useLoginRouter('/folder');
   const { handleSubmit, setError } = form;
-  const [submit, setSubmit] = useState(false);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
   const subTitle = {
     signin: {
@@ -58,6 +58,9 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
   ];
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    if (inputRef.current) {
+      inputRef.current.blur();
+    }
     const [email, password] = [
       submitData.dataName.email,
       submitData.dataName.password,
@@ -66,11 +69,10 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
     if (APIData.error) {
       submitData.errorMessages.forEach((errorMessage) => {
         setError(errorMessage.name, {
-          type: 'manual',
+          type: 'custom',
           message: errorMessage.message,
         });
       });
-      setSubmit((prev) => !prev);
       return;
     }
     localStorage.setItem('accessToken', APIData.accessToken);
@@ -99,7 +101,12 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
           </S.SubTitle>
         </S.TitleWrapper>
         {inputForm.map((input) => (
-          <Input key={input.id} inputType={input} form={form} submit={submit} />
+          <Input
+            key={input.id}
+            inputType={input}
+            form={form}
+            inputRef={inputRef}
+          />
         ))}
         <S.ButtonWraper>
           <S.SubmitButton>로그인</S.SubmitButton>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { UseFormReturn } from 'react-hook-form';
 import { InputType } from '@/src/type';
 import * as S from './Input.style';
@@ -6,11 +6,10 @@ import * as S from './Input.style';
 interface InputProps {
   inputType: InputType;
   form: UseFormReturn;
-  submit?: boolean;
+  inputRef?: React.MutableRefObject<HTMLInputElement | null>;
 }
 
-const Input = ({ inputType, form, submit }: InputProps) => {
-  const inputRef = useRef<HTMLInputElement>();
+const Input = ({ inputType, form, inputRef }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const ID = inputType.id;
   const {
@@ -35,10 +34,16 @@ const Input = ({ inputType, form, submit }: InputProps) => {
     if (blurFunc) {
       blurFunc();
     }
+    if (inputRef) {
+      Object.assign(inputRef, { current: null });
+    }
   };
 
-  const handleFocus = () => {
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     clearErrors(ID);
+    if (inputRef) {
+      Object.assign(inputRef, { current: e.target });
+    }
   };
 
   const { onBlur, name, ref, onChange } = register(ID, {
@@ -51,12 +56,6 @@ const Input = ({ inputType, form, submit }: InputProps) => {
     onBlur: handleBlur,
   });
 
-  useEffect(() => {
-    if (submit !== undefined && inputRef.current) {
-      inputRef.current.blur();
-    }
-  }, [submit]);
-
   return (
     <S.Wrapper>
       <S.Label>{inputType.label}</S.Label>
@@ -64,10 +63,7 @@ const Input = ({ inputType, form, submit }: InputProps) => {
         <S.InputBox
           placeholder={inputType.placeholder ?? ''}
           type={showPassword ? 'text' : inputType.type}
-          ref={(e) => {
-            ref(e);
-            inputRef.current = e ?? undefined;
-          }}
+          ref={ref}
           name={name}
           onBlur={onBlur}
           $error={String(errors[ID]?.message ?? '')}
@@ -92,7 +88,7 @@ const Input = ({ inputType, form, submit }: InputProps) => {
   );
 };
 Input.defaultProps = {
-  submit: false,
+  inputRef: null,
 };
 
 export default Input;
