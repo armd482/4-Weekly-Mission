@@ -6,10 +6,9 @@ import * as S from './Input.style';
 interface InputProps {
   inputType: InputType;
   form: UseFormReturn;
-  inputRef?: React.MutableRefObject<HTMLInputElement | null>;
 }
 
-const Input = ({ inputType, form, inputRef }: InputProps) => {
+const Input = ({ inputType, form }: InputProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const ID = inputType.id;
   const {
@@ -34,15 +33,11 @@ const Input = ({ inputType, form, inputRef }: InputProps) => {
     if (blurFunc) {
       blurFunc();
     }
-    if (inputRef) {
-      Object.assign(inputRef, { current: null });
-    }
   };
 
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    clearErrors(ID);
-    if (inputRef) {
-      Object.assign(inputRef, { current: e.target });
+  const handleChange = () => {
+    if (errors[ID]) {
+      clearErrors(ID);
     }
   };
 
@@ -54,6 +49,7 @@ const Input = ({ inputType, form, inputRef }: InputProps) => {
     },
     validate: (value) => validateInput(value),
     onBlur: handleBlur,
+    onChange: handleChange,
   });
 
   return (
@@ -67,7 +63,6 @@ const Input = ({ inputType, form, inputRef }: InputProps) => {
           name={name}
           onBlur={onBlur}
           $error={String(errors[ID]?.message ?? '')}
-          onFocus={handleFocus}
           onChange={onChange}
         />
         {inputType.type === 'password' && (
@@ -86,9 +81,6 @@ const Input = ({ inputType, form, inputRef }: InputProps) => {
       </S.ErrorText>
     </S.Wrapper>
   );
-};
-Input.defaultProps = {
-  inputRef: null,
 };
 
 export default Input;

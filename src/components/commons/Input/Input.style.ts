@@ -35,7 +35,7 @@ export const InputBox = styled.input<{ $error: string }>`
   }
 
   &:focus {
-    border-color: ${COLOR.Primary};
+    ${({ $error }) => `border-color: ${$error ? COLOR.Red : COLOR.Primary};`}
   }
 `;
 export const EyeButton = styled(Image)`
