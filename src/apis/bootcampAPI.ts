@@ -1,4 +1,4 @@
-import { instance } from './instance';
+import { authorizationInstance, instance } from './instance';
 import {
   UserDataType,
   FolderDataType,
@@ -144,5 +144,25 @@ export const checkEmailAPI = async (email: string) => {
     return true;
   } catch (error) {
     return false;
+  }
+};
+
+export const getUserDataAPI = async () => {
+  const APIData: UserDataType = {
+    id: -1,
+    email: '',
+    image: '',
+    error: null,
+  };
+  try {
+    const response = await authorizationInstance.get('/users');
+    const {
+      data: { id, email, image_source },
+    } = response.data;
+    Object.assign(APIData, { id, email, image: image_source });
+    return APIData;
+  } catch (error) {
+    Object.assign(APIData, { error });
+    return APIData;
   }
 };

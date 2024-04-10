@@ -33,6 +33,7 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': 'off',
     'import/no-unresolved': 'off',
+    camelcase: 'off',
     'react/function-component-definition': [
       'error',
       { namedComponents: ['arrow-function', 'function-declaration'] },

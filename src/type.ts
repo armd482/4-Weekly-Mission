@@ -1,4 +1,5 @@
 export type UserDataType = {
+  id?: number;
   email: string;
   image: string | null;
   error: unknown | null;
