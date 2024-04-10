@@ -72,6 +72,7 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
     }
     localStorage.setItem('accessToken', APIData.accessToken);
     localStorage.setItem('refreshToken', APIData.refreshToken);
+    console.log(APIData.refreshToken);
     router.push('/folder');
   };
 
