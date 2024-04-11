@@ -1,14 +1,15 @@
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
+import { UserContext } from '../context/userContext';
 
 const useLoginRouter = (address: string) => {
   const router = useRouter();
+  const { isPending, id } = useContext(UserContext);
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
-      router.push(address);
+    if (!isPending && id) {
+      router.replace(address);
     }
-  }, [address, router]);
+  }, [id, isPending, address, router]);
 };
 
 export default useLoginRouter;

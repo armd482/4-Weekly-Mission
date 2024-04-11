@@ -3,11 +3,11 @@ import Link from 'next/link';
 import { SubmitHandler, FieldValues, UseFormReturn } from 'react-hook-form';
 import { useRouter } from 'next/router';
 import { InputType, signinDataType } from '@/src/type';
-import useLoginRouter from '@/src/hooks/useLoginRouter';
 import Input from '@/src/components/commons/Input/Input';
 import { getUserDataAPI } from '@/src/apis/bootcampAPI';
 import { useContext } from 'react';
 import { UserContext } from '@/src/context/userContext';
+import useLoginRouter from '@/src/hooks/useLoginRouter';
 import * as S from './Form.style';
 
 type errorMessageType = {
@@ -34,10 +34,13 @@ interface FormProps {
 }
 
 const Form = ({ page, inputForm, submitData, form }: FormProps) => {
-  useLoginRouter('/folder');
-  const { handleSubmit, setError } = form;
-  const { updateData } = useContext(UserContext);
   const router = useRouter();
+  const { handleSubmit, setError } = form;
+  const { id, isPending, updateData } = useContext(UserContext);
+  useLoginRouter('/folder');
+  if (!isPending && id) {
+    return null;
+  }
   const subTitle = {
     signin: {
       href: '/signup',
