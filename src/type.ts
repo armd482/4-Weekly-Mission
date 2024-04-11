@@ -1,7 +1,7 @@
 export type UserDataType = {
   id?: number;
   email: string;
-  image: string | null;
+  image: string;
   error: unknown | null;
 };
 

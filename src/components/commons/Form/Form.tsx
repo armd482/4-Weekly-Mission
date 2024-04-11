@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { InputType, signinDataType } from '@/src/type';
 import useLoginRouter from '@/src/hooks/useLoginRouter';
 import Input from '@/src/components/commons/Input/Input';
+import { getUserDataAPI } from '@/src/apis/bootcampAPI';
 import * as S from './Form.style';
 
 type errorMessageType = {
@@ -72,7 +73,12 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
     }
     localStorage.setItem('accessToken', APIData.accessToken);
     localStorage.setItem('refreshToken', APIData.refreshToken);
-    console.log(APIData.refreshToken);
+    const userData = await getUserDataAPI();
+    if (!userData.error) {
+      localStorage.setItem('userID', String(userData.id));
+      localStorage.setItem('userImage', userData.image);
+      localStorage.setItem('userEmail', userData.email);
+    }
     router.push('/folder');
   };
 

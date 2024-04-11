@@ -4,7 +4,7 @@ import SubHeader from '@/src/components/shared/SubHeader/SubHeader';
 import SearchBar from '@/src/components/commons/SearchBar/SearchBar';
 import Card from '@/src/components/commons/Card/Card';
 import Footer from '@/src/components/commons/Footer/Footer';
-import { getFolderDataAPI, getUserSampleDataAPI } from '@/src/apis/bootcampAPI';
+import { getFolderDataAPI } from '@/src/apis/bootcampAPI';
 import { FolderDataType, UserDataType, cardDataType } from '@/src/type';
 import FilterData from '@/src/utils/FilterData';
 import * as S from '../../../styles/shared.style';
@@ -19,11 +19,9 @@ interface SharedPageProps {
 }
 
 export const getServerSideProps = async () => {
-  const userData = await getUserSampleDataAPI();
   const folderData = await getFolderDataAPI();
   return {
     props: {
-      userData,
       folderData,
     },
   };
@@ -39,7 +37,7 @@ export default function SharedPage({ pageProps }: SharedPageProps) {
   }, []);
   return (
     <>
-      <Header fix userData={pageProps.userData} page="shared" />
+      <Header fix page="shared" />
       <SubHeader folder={pageProps.folderData} />
       <S.Content>
         <S.ContentWrapper>

@@ -156,9 +156,7 @@ export const getUserDataAPI = async () => {
   };
   try {
     const response = await authorizationInstance.get('/users');
-    const {
-      data: { id, email, image_source },
-    } = response.data;
+    const { id, email, image_source } = response.data.data[0];
     Object.assign(APIData, { id, email, image: image_source });
     return APIData;
   } catch (error) {

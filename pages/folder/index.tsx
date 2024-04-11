@@ -4,11 +4,7 @@ import Header from '@/src/components/commons/Header/Header';
 import SearchBar from '@/src/components/commons/SearchBar/SearchBar';
 import SubHeader from '@/src/components/folder/SubHeader/SubHeader';
 import Footer from '@/src/components/commons/Footer/Footer';
-import {
-  getCategoryDataAPI,
-  getCardDataAPI,
-  getUserSampleDataAPI,
-} from '@/src/apis/bootcampAPI';
+import { getCategoryDataAPI, getCardDataAPI } from '@/src/apis/bootcampAPI';
 import { FolderContextProvider } from '@/src/context/folderContext';
 import {
   CategoryDataType,
@@ -32,13 +28,11 @@ interface FolderPageProps {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const userData = await getUserSampleDataAPI();
   const folderData = await getCategoryDataAPI();
   const { folderID } = context.query;
   const folderCard = await getCardDataAPI(String(folderID ?? '0'));
   return {
     props: {
-      userData,
       folderData,
       folderCard,
     },
@@ -50,7 +44,6 @@ export default function FolderPage({ pageProps }: FolderPageProps) {
   const [visible, setVisible] = useState(false);
   const [topic, setTopic] = useState<string>('');
   const cardData = FilterData<folderCardType>(pageProps.folderCard.card, topic);
-
   const changeTopic = useCallback((value: string) => {
     setTopic(value);
   }, []);
@@ -102,7 +95,7 @@ export default function FolderPage({ pageProps }: FolderPageProps) {
   return (
     <FolderContextProvider>
       <S.Wrapper>
-        <Header fix={false} userData={pageProps.userData} page="folder" />
+        <Header fix={false} page="folder" />
         <SubHeader folderData={pageProps.folderData} />
         <S.Content ref={target}>
           <S.ContentWrapper>
