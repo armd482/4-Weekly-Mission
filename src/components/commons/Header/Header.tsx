@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
-
+import { UserContext } from '@/src/context/userContext';
 import * as S from './Header.style';
 
 interface HeaderProps {
@@ -9,15 +9,7 @@ interface HeaderProps {
 }
 
 const Header = ({ fix, page }: HeaderProps) => {
-  const [userData, setUserData] = useState({ id: -1, image: '', email: '' });
-  useEffect(() => {
-    const id = Number(localStorage.getItem('userID'));
-    const image = localStorage.getItem('userImage');
-    const email = localStorage.getItem('userEmail');
-    if (id && email && image) {
-      setUserData({ id, image, email });
-    }
-  }, []);
+  const { id, email, image } = useContext(UserContext);
 
   return (
     <S.Wrapper $fix={!!fix}>
@@ -31,15 +23,10 @@ const Header = ({ fix, page }: HeaderProps) => {
             priority
           />
         </Link>
-        {userData.id && userData.email && userData.image ? (
+        {id && email && image ? (
           <S.UserWrapper>
-            <S.UserImage
-              src={userData.image}
-              alt="profile"
-              width={28}
-              height={28}
-            />
-            <S.UserEmail>{userData.email}</S.UserEmail>
+            <S.UserImage src={image} alt="profile" width={28} height={28} />
+            <S.UserEmail>{email}</S.UserEmail>
           </S.UserWrapper>
         ) : (
           <Link href="/signin">

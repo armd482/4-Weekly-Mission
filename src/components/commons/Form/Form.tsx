@@ -6,6 +6,8 @@ import { InputType, signinDataType } from '@/src/type';
 import useLoginRouter from '@/src/hooks/useLoginRouter';
 import Input from '@/src/components/commons/Input/Input';
 import { getUserDataAPI } from '@/src/apis/bootcampAPI';
+import { useContext } from 'react';
+import { UserContext } from '@/src/context/userContext';
 import * as S from './Form.style';
 
 type errorMessageType = {
@@ -34,6 +36,7 @@ interface FormProps {
 const Form = ({ page, inputForm, submitData, form }: FormProps) => {
   useLoginRouter('/folder');
   const { handleSubmit, setError } = form;
+  const { updateData } = useContext(UserContext);
   const router = useRouter();
   const subTitle = {
     signin: {
@@ -75,9 +78,7 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
     localStorage.setItem('refreshToken', APIData.refreshToken);
     const userData = await getUserDataAPI();
     if (!userData.error) {
-      localStorage.setItem('userID', String(userData.id));
-      localStorage.setItem('userImage', userData.image);
-      localStorage.setItem('userEmail', userData.email);
+      updateData(userData.id ?? -1, userData.email, userData.image);
     }
     router.push('/folder');
   };

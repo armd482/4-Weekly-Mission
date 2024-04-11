@@ -55,10 +55,10 @@ authorizationInstance.interceptors.response.use(
     const originalRequest = error.config;
     const refreshToken = localStorage.getItem('refreshToken');
     if (refreshToken) {
-      const newAcessToken = await getAccessToken(refreshToken);
-      if (!newAcessToken.error) {
-        localStorage.setItem('accessToken', newAcessToken.accessToken);
-        localStorage.setItem('refreshToken', newAcessToken.refreshToken);
+      const newAccessToken = await getAccessToken(refreshToken);
+      if (!newAccessToken.error) {
+        localStorage.setItem('accessToken', newAccessToken.accessToken);
+        localStorage.setItem('refreshToken', newAccessToken.refreshToken);
         return instance(originalRequest);
       }
     }
