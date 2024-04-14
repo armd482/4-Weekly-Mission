@@ -14,11 +14,17 @@ import Folder from '@/src/components/folder/Folder/Folder';
 import Modal from '@/src/components/folder/Modal/Modal';
 import FilterData from '@/src/utils/FilterData';
 import useAPIData from '@/src/hooks/useAPIData';
+import { useRouter } from 'next/router';
 import * as S from '../../styles/folder.style';
 
 export default function FolderPage() {
   const { data: folderData } = useAPIData<CategoryDataType>(getCategoryDataAPI);
-  const { data: folderCard } = useAPIData<folderCardDataType>(getCardDataAPI);
+  const router = useRouter();
+  const { folderID } = router.query;
+  const { data: folderCard } = useAPIData<folderCardDataType>(
+    getCardDataAPI,
+    String(folderID),
+  );
   const target = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   const [topic, setTopic] = useState<string>('');

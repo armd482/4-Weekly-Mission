@@ -4,7 +4,6 @@ import Content from '@/src/components/main/Content/Content';
 import SubHeader from '@/src/components/main/SubHeader/SubHeader';
 
 export default function Home() {
-  /* console.log(userData); */
   return (
     <>
       <Header page="main" fix />

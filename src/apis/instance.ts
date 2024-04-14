@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import { signinDataType } from '../type';
 
 export const instance = axios.create({
@@ -17,7 +18,7 @@ export const authorizationInstance = axios.create({
 
 authorizationInstance.interceptors.request.use(
   (config) => {
-    const accessToken = localStorage.getItem('accessToken');
+    const accessToken = Cookies.get('accessToken');
     if (accessToken) {
       Object.assign(config.headers, { Authorization: `Bearer ${accessToken}` });
     }

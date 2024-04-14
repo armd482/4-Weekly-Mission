@@ -7,7 +7,7 @@ import Input from '@/src/components/commons/Input/Input';
 import { getUserDataAPI } from '@/src/apis/bootcampAPI';
 import { useContext } from 'react';
 import { UserContext } from '@/src/context/userContext';
-import useLoginRouter from '@/src/hooks/useLoginRouter';
+import Cookies from 'js-cookie';
 import * as S from './Form.style';
 
 type errorMessageType = {
@@ -36,11 +36,12 @@ interface FormProps {
 const Form = ({ page, inputForm, submitData, form }: FormProps) => {
   const router = useRouter();
   const { handleSubmit, setError } = form;
-  const { id, isPending, updateData } = useContext(UserContext);
-  useLoginRouter('/folder');
-  if (!isPending && id) {
+  const { updateData, id, isPending } = useContext(UserContext);
+
+  if (!isPending && id !== -1) {
     return null;
   }
+
   const subTitle = {
     signin: {
       href: '/signup',
@@ -77,8 +78,8 @@ const Form = ({ page, inputForm, submitData, form }: FormProps) => {
       });
       return;
     }
-    localStorage.setItem('accessToken', APIData.accessToken);
     localStorage.setItem('refreshToken', APIData.refreshToken);
+    Cookies.set('accessToken', APIData.accessToken);
     const userData = await getUserDataAPI();
     if (!userData.error) {
       updateData(userData.id ?? -1, userData.email, userData.image);

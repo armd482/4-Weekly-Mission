@@ -93,3 +93,8 @@ export type signinDataType = {
   refreshToken: string;
   error: null | unknown;
 };
+export type FolderType = {
+  userID: number;
+  folderName: string;
+  error: null | unknown;
+};

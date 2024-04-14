@@ -5,6 +5,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import Cookies from 'js-cookie';
 import { getUserDataAPI } from '../apis/bootcampAPI';
 
 interface contextType {
@@ -51,7 +52,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
   useEffect(() => {
     const getUserData = async () => {
-      const accessToken = localStorage.getItem('accessToken');
+      const accessToken = Cookies.get('accessToken');
       if (accessToken) {
         setUserData({ ...userData, isPending: true });
         const { id, email, image, error } = await getUserDataAPI();

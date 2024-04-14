@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FolderContext } from '@/src/context/folderContext';
@@ -21,8 +21,9 @@ const Folder = ({ folderData, cardData }: FolderProps) => {
   const { changeModalData } = useContext(FolderContext);
   const router = useRouter();
   const { folderID } = router.query;
-  const currentFolderID = folderID ?? '0';
-  const [currentFolder, setCurrentFolder] = useState<string>('전체');
+  const folderTitle = folderData.category.find(
+    (folder) => String(folder.id) === folderID,
+  )?.name;
 
   const openModal = () => {
     changeModalData({
@@ -48,15 +49,11 @@ const Folder = ({ folderData, cardData }: FolderProps) => {
   const openOptionModal = (type: string) => {
     changeModalData({
       modalType: optionModalType(type),
-      subTitle: type === '삭제' ? currentFolder : '',
+      subTitle: type === '삭제' ? folderTitle ?? '' : '',
       folder: [],
       currentFolderID: -1,
       currentLinkID: -1,
     });
-  };
-
-  const clickFolderButton = (value: string) => {
-    setCurrentFolder(value);
   };
 
   const OPTION: obj[] = [
@@ -83,25 +80,17 @@ const Folder = ({ folderData, cardData }: FolderProps) => {
     <S.Wrapper>
       <S.FolderWrapper>
         <S.CategoryWrapper>
-          <Link href={{ pathname: '/folder', query: { folderID: '0' } }}>
-            <S.CategoryButton
-              id="0"
-              $checked={currentFolderID === '0'}
-              onClick={() => clickFolderButton('전체')}
-            >
+          <Link href="/folder">
+            <S.CategoryButton id="0" $checked={!folderID}>
               전체
             </S.CategoryButton>
           </Link>
           {folderData &&
             folderData.category.map((folder) => (
-              <Link
-                href={{ pathname: '/folder', query: { folderID: folder.id } }}
-                key={folder.id}
-              >
+              <Link href={`/folder/${folder.id}`} key={folder.id}>
                 <S.CategoryButton
                   id={String(folder.id)}
-                  $checked={currentFolderID === String(folder.id)}
-                  onClick={() => clickFolderButton(folder.name)}
+                  $checked={folderID === String(folder.id)}
                 >
                   {folder.name}
                 </S.CategoryButton>
@@ -119,8 +108,8 @@ const Folder = ({ folderData, cardData }: FolderProps) => {
         </S.AddFolderWrapper>
       </S.FolderWrapper>
       <S.TitleWrapper>
-        <S.FolderTitle>{currentFolder}</S.FolderTitle>
-        {folderID && folderID !== '0' && (
+        <S.FolderTitle>{folderTitle ?? '전체'}</S.FolderTitle>
+        {folderID && String(folderID) !== '0' && (
           <S.OptionWrapper>
             {OPTION.map((option) => (
               <S.OptionButtonWrapper

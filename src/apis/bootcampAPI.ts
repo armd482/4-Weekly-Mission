@@ -1,48 +1,94 @@
 import { authorizationInstance, instance } from './instance';
 import {
   UserDataType,
-  FolderDataType,
   CategoryDataType,
   folderCardDataType,
   signinDataType,
+  FolderType,
 } from '../type';
 
-export const getUserSampleDataAPI = async (): Promise<UserDataType> => {
-  const APIData: UserDataType = {
-    email: '',
+// shared
+export const getFolderAPI = async (
+  folderID: string | null,
+): Promise<FolderType> => {
+  const APIData = {
+    userID: -1,
+    folderName: '',
+    error: null,
+  };
+  try {
+    const response = await instance.get(`/folders/${folderID}`);
+    const { name, user_id } = response.data.data[0];
+    Object.assign(APIData, { folderName: name, userID: user_id });
+    return APIData;
+  } catch (error) {
+    Object.assign(APIData, { error });
+    return APIData;
+  }
+};
+type userData = {
+  name: string;
+  image: string;
+  error: null | unknown;
+};
+export const getFolderUserDataAPI = async (
+  userID: string | null,
+): Promise<userData> => {
+  const APIData = {
+    name: '',
     image: '',
     error: null,
   };
   try {
-    const response = await instance.get(`/users/4`);
-    const { data } = response;
-    APIData.email = data.data[0].email;
-    APIData.image = data.data[0].image_source;
+    const response = await instance.get(`/users/${userID}`);
+    const { name, image_source } = response.data.data[0];
+    Object.assign(APIData, { name, image: image_source });
     return APIData;
   } catch (error) {
-    APIData.error = error;
+    Object.assign(APIData, { error });
     return APIData;
   }
 };
 
-export const getFolderDataAPI = async (): Promise<FolderDataType> => {
-  const APIData: FolderDataType = {
-    userName: '',
-    userImage: '',
-    name: '',
-    cardData: [],
+type cardDataType = {
+  id: number;
+  folder_id: number;
+  created_at: string;
+  url: string;
+  title: string | null;
+  description: string | null;
+  image_source: string | null;
+  updated_at: string | null;
+};
+
+export const getSharedCardDataAPI = async (
+  userID: string,
+  folderID: string,
+) => {
+  const APIData = {
+    card: [],
     error: null,
   };
   try {
-    const response = await instance.get(`/sample/folder`);
-    const { data } = response;
-    APIData.userName = data.folder.owner.name;
-    APIData.userImage = data.folder.owner.profileImageSource;
-    APIData.name = data.folder.name;
-    APIData.cardData = data.folder.links;
+    const response = await instance.get(
+      `/users/${userID}/links?folderId=${folderID}`,
+    );
+    const { data } = response.data;
+    const typedData = data.map((card: cardDataType) => {
+      const { id, created_at, url, title, description, image_source } = card;
+      return {
+        id,
+        createdAt: created_at,
+        imageSource: image_source,
+        url,
+        title,
+        description,
+      };
+    });
+    Object.assign(APIData, { card: typedData });
     return APIData;
   } catch (error) {
-    APIData.error = error;
+    Object.assign(APIData, { error });
     return APIData;
   }
 };
@@ -53,9 +99,9 @@ export const getCategoryDataAPI = async (): Promise<CategoryDataType> => {
     error: null,
   };
   try {
-    const response = await instance.get('/users/4/folders');
+    const response = await authorizationInstance.get('/folders');
     const { data } = response;
-    APIData.category = data.data;
+    APIData.category = data.data.folder;
     return APIData;
   } catch (error) {
     APIData.error = error;
@@ -70,23 +116,11 @@ export const getCardDataAPI = async (
     card: [],
     error: null,
   };
-  if (folderID && folderID !== '0') {
-    try {
-      const response = await instance.get(
-        `/users/4/links?folderId=${folderID}`,
-      );
-      const { data } = response;
-      APIData.card = data.data;
-      return APIData;
-    } catch (error) {
-      APIData.error = error;
-      return APIData;
-    }
-  }
   try {
-    const response = await instance.get('/users/4/links');
+    const url = `/links${folderID === '0' || !folderID ? '' : `?folderId=${folderID}`}`;
+    const response = await authorizationInstance.get(url);
     const { data } = response;
-    APIData.card = data.data;
+    APIData.card = data.data.folder;
     return APIData;
   } catch (error) {
     APIData.error = error;

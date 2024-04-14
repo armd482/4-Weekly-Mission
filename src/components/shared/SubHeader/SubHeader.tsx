@@ -1,8 +1,11 @@
-import { FolderDataType } from '@/src/type';
 import * as S from './SubHeader.style';
 
 interface SubHeaderProps {
-  folder: FolderDataType;
+  folder: {
+    userName: string;
+    userImage: string;
+    folderName: string;
+  };
 }
 
 const SubHeader = ({ folder }: SubHeaderProps) => (
@@ -15,7 +18,7 @@ const SubHeader = ({ folder }: SubHeaderProps) => (
         height={60}
       />
       <S.ProfileName>{folder.userName}</S.ProfileName>
-      <S.FolderName>{folder.name}</S.FolderName>
+      <S.FolderName>{folder.folderName}</S.FolderName>
     </S.ContentWrapper>
   </S.Wrapper>
 );
