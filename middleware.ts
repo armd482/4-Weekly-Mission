@@ -10,8 +10,10 @@ export async function middleware(request: NextRequest) {
     }
   }
   if (path === '/signin' || path === '/signup') {
+    const prev = request.nextUrl.host;
+    console.log(prev);
     if (accessToken) {
-      return NextResponse.redirect(new URL('/folder', request.url));
+      return NextResponse.redirect(new URL(prev, request.url));
     }
   }
   return NextResponse.next();
